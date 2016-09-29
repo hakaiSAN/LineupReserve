@@ -7,20 +7,22 @@
         <li><?= $this->Html->link(__('New Store'), ['action' => 'add']) ?> </li>
         <li><?= $this->Html->link(__('List Events'), ['controller' => 'Events', 'action' => 'index']) ?> </li>
         <li><?= $this->Html->link(__('New Event'), ['controller' => 'Events', 'action' => 'add']) ?> </li>
-        <li><?= $this->Html->link(__('List Items'), ['controller' => 'Items', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Item'), ['controller' => 'Items', 'action' => 'add']) ?> </li>
     </ul>
 </nav>
 <div class="stores view large-9 medium-8 columns content">
     <h3><?= h($store->name) ?></h3>
     <table class="vertical-table">
         <tr>
-            <th scope="row"><?= __('Pass') ?></th>
-            <td><?= h($store->pass) ?></td>
+            <th scope="row"><?= __('Password') ?></th>
+            <td><?= h($store->password) ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Name') ?></th>
             <td><?= h($store->name) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Loginname') ?></th>
+            <td><?= h($store->loginname) ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Id') ?></th>
@@ -46,6 +48,7 @@
                 <th scope="col"><?= __('Created') ?></th>
                 <th scope="col"><?= __('Modified') ?></th>
                 <th scope="col"><?= __('Store Id') ?></th>
+                <th scope="col"><?= __('Name') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
             <?php foreach ($store->events as $events): ?>
@@ -56,47 +59,11 @@
                 <td><?= h($events->created) ?></td>
                 <td><?= h($events->modified) ?></td>
                 <td><?= h($events->store_id) ?></td>
+                <td><?= h($events->name) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['controller' => 'Events', 'action' => 'view', $events->id]) ?>
                     <?= $this->Html->link(__('Edit'), ['controller' => 'Events', 'action' => 'edit', $events->id]) ?>
                     <?= $this->Form->postLink(__('Delete'), ['controller' => 'Events', 'action' => 'delete', $events->id], ['confirm' => __('Are you sure you want to delete # {0}?', $events->id)]) ?>
-                </td>
-            </tr>
-            <?php endforeach; ?>
-        </table>
-        <?php endif; ?>
-    </div>
-    <div class="related">
-        <h4><?= __('Related Items') ?></h4>
-        <?php if (!empty($store->items)): ?>
-        <table cellpadding="0" cellspacing="0">
-            <tr>
-                <th scope="col"><?= __('Id') ?></th>
-                <th scope="col"><?= __('Name') ?></th>
-                <th scope="col"><?= __('Price') ?></th>
-                <th scope="col"><?= __('Info') ?></th>
-                <th scope="col"><?= __('Stock') ?></th>
-                <th scope="col"><?= __('Reserve') ?></th>
-                <th scope="col"><?= __('Store Id') ?></th>
-                <th scope="col"><?= __('Created') ?></th>
-                <th scope="col"><?= __('Modified') ?></th>
-                <th scope="col" class="actions"><?= __('Actions') ?></th>
-            </tr>
-            <?php foreach ($store->items as $items): ?>
-            <tr>
-                <td><?= h($items->id) ?></td>
-                <td><?= h($items->name) ?></td>
-                <td><?= h($items->price) ?></td>
-                <td><?= h($items->info) ?></td>
-                <td><?= h($items->stock) ?></td>
-                <td><?= h($items->reserve) ?></td>
-                <td><?= h($items->store_id) ?></td>
-                <td><?= h($items->created) ?></td>
-                <td><?= h($items->modified) ?></td>
-                <td class="actions">
-                    <?= $this->Html->link(__('View'), ['controller' => 'Items', 'action' => 'view', $items->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['controller' => 'Items', 'action' => 'edit', $items->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['controller' => 'Items', 'action' => 'delete', $items->id], ['confirm' => __('Are you sure you want to delete # {0}?', $items->id)]) ?>
                 </td>
             </tr>
             <?php endforeach; ?>

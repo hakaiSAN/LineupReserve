@@ -43,7 +43,29 @@ class AppController extends Controller
 
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
-    }
+        //ログイン認証
+        $this->loadComponent('Auth', [
+          'authenticate' => [
+            'Form'=> [
+              'userModel' => 'Stores',
+              'fields' => [
+              'username' => 'loginname',
+              'password' => 'password',
+            ],
+              'PasswordHasher' => 'Default'
+          ]
+        ],
+        'loginRedirect' => [
+          'controller' => 'Stores',
+          'action' => 'index'
+        ],
+        'loginAction' => [
+          'controller' => 'Stores',
+          'action' => 'login',
+          'realm' => 'stores'
+        ]
+      ]);
+    } 
 
     /**
      * Before render callback.

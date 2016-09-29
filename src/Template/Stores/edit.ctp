@@ -10,8 +10,6 @@
         <li><?= $this->Html->link(__('List Stores'), ['action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('List Events'), ['controller' => 'Events', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New Event'), ['controller' => 'Events', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Items'), ['controller' => 'Items', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Item'), ['controller' => 'Items', 'action' => 'add']) ?></li>
     </ul>
 </nav>
 <div class="stores form large-9 medium-8 columns content">
@@ -19,8 +17,9 @@
     <fieldset>
         <legend><?= __('Edit Store') ?></legend>
         <?php
-            echo $this->Form->input('pass');
+            echo $this->Form->input('password');
             echo $this->Form->input('name');
+            echo $this->Form->input('loginname');
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

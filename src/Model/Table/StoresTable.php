@@ -10,7 +10,6 @@ use Cake\Validation\Validator;
  * Stores Model
  *
  * @property \Cake\ORM\Association\HasMany $Events
- * @property \Cake\ORM\Association\HasMany $Items
  *
  * @method \App\Model\Entity\Store get($primaryKey, $options = [])
  * @method \App\Model\Entity\Store newEntity($data = null, array $options = [])
@@ -44,9 +43,6 @@ class StoresTable extends Table
         $this->hasMany('Events', [
             'foreignKey' => 'store_id'
         ]);
-        $this->hasMany('Items', [
-            'foreignKey' => 'store_id'
-        ]);
     }
 
     /**
@@ -62,12 +58,16 @@ class StoresTable extends Table
             ->allowEmpty('id', 'create');
 
         $validator
-            ->requirePresence('pass', 'create')
-            ->notEmpty('pass');
+            ->requirePresence('password', 'create')
+            ->notEmpty('password');
 
         $validator
             ->requirePresence('name', 'create')
             ->notEmpty('name');
+
+        $validator
+            ->requirePresence('loginname', 'create')
+            ->notEmpty('loginname');
 
         return $validator;
     }
