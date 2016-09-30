@@ -55,7 +55,6 @@ class StoresController extends AppController
             $store = $this->Stores->patchEntity($store, $this->request->data);
             if ($this->Stores->save($store)) {
                 $this->Flash->success(__('The store has been saved.'));
-
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__('The store could not be saved. Please, try again.'));

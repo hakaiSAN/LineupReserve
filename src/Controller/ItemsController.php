@@ -118,5 +118,5 @@ class ItemsController extends AppController
 //        $this->Auth->allow(['add', 'logout']);
 //        $this->Auth->allow();
 //        $this->Auth->deny(['delete']);
-    }
+//    }
 }
