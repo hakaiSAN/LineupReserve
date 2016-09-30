@@ -1,7 +1,7 @@
 <?php
 namespace App\Controller;
 
-use Cake\Auth\DefaultPasswordHasher;
+use Cake\Auth\WeakPasswordHasher;
 use App\Controller\AppController;
 
 /**
@@ -113,16 +113,19 @@ class StoresController extends AppController
     public function login()
     {
       if($this->request->is(['post'])) {
-        $hasher = new DefaultPasswordHasher();
-        $user = $this->Auth->identify();
+/*
         $testname = $this->request->data['loginname'];
         $testpass = $this->request->data['password'];
-        $bool = $hasher->hash($this->request->data['password']);
         debug($testname);
         debug($testpass);
-        debug($this->request);
-        debug($bool);
+ */
+        $hasher = new WeakPasswordHasher();
+        $bool = $hasher->hash($this->request->data['password']);
+//        debug($bool);
+//        $this->request->data['password'] = $bool;
+        $user = $this->Auth->identify();
 //        debug($this->Auth);
+//        debug($this->request);
         if($user){
           $this->Auth->setUser($user);
           return $this->redirect($this->Auth->redirectUrl());
@@ -132,10 +135,14 @@ class StoresController extends AppController
 //        }
       }
     }
+    public function logout() {
+      $this->redirect($this->Auth->logout());
+    }
 
     public function beforeFilter(\Cake\Event\Event $event) {
         parent::beforeFilter($event);
-//        $this->Auth->allow(['add']);
+//        $this->Auth->allow(['add', 'logout']);
         $this->Auth->allow();
+//        $this->Auth->deny(['delete']);
     }
 }

@@ -40,7 +40,6 @@ class AppController extends Controller
     public function initialize()
     {
         parent::initialize();
-
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
         //ログイン認証
@@ -52,17 +51,12 @@ class AppController extends Controller
               'username' => 'loginname',
               'password' => 'password',
             ],
-              'PasswordHasher' => 'Default'
+              'passwordHasher' => 'Weak'
           ]
-        ],
-        'loginRedirect' => [
-          'controller' => 'Stores',
-          'action' => 'index'
         ],
         'loginAction' => [
           'controller' => 'Stores',
           'action' => 'login',
-          'realm' => 'stores'
         ]
       ]);
     } 

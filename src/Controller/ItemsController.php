@@ -113,4 +113,10 @@ class ItemsController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+//    public function beforeFilter(\Cake\Event\Event $event) {
+//        parent::beforeFilter($event);
+//        $this->Auth->allow(['add', 'logout']);
+//        $this->Auth->allow();
+//        $this->Auth->deny(['delete']);
+    }
 }
