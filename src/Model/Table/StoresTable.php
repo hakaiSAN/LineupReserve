@@ -65,10 +65,6 @@ class StoresTable extends Table
             ->requirePresence('name', 'create')
             ->notEmpty('name');
 
-        $validator
-            ->requirePresence('loginname', 'create')
-            ->notEmpty('loginname');
-
         return $validator;
     }
 }

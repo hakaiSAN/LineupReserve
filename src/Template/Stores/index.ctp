@@ -16,7 +16,6 @@
                 <th scope="col"><?= $this->Paginator->sort('name') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('created') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('modified') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('loginname') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
         </thead>
@@ -28,7 +27,6 @@
                 <td><?= h($store->name) ?></td>
                 <td><?= h($store->created) ?></td>
                 <td><?= h($store->modified) ?></td>
-                <td><?= h($store->loginname) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $store->id]) ?>
                     <?= $this->Html->link(__('Edit'), ['action' => 'edit', $store->id]) ?>

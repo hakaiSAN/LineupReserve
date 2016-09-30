@@ -1,7 +1,6 @@
 <?php
 namespace App\Controller;
 
-use Cake\Auth\WeakPasswordHasher;
 use App\Controller\AppController;
 
 /**
@@ -11,7 +10,6 @@ use App\Controller\AppController;
  */
 class StoresController extends AppController
 {
-
 
     /**
      * Index method
@@ -55,6 +53,7 @@ class StoresController extends AppController
             $store = $this->Stores->patchEntity($store, $this->request->data);
             if ($this->Stores->save($store)) {
                 $this->Flash->success(__('The store has been saved.'));
+
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__('The store could not be saved. Please, try again.'));
@@ -119,19 +118,19 @@ class StoresController extends AppController
                 return $this->redirect($this->Auth->redirectUrl());
             } 
             else{
-                $this->Flash->error('ログインNameかパスワードが間違っています.');
+                $this->Flash->error('Nameかパスワードが間違っています.');
             }
       }
     }
+
     public function logout() {
       return $this->redirect($this->Auth->logout());
     }
 
     public function beforeFilter(\Cake\Event\Event $event) {
         parent::beforeFilter($event);
-        $this->Auth->allow(['add', 'logout']);
-//        $this->Auth->allow();
-//        $this->Auth->deny(['delete']);
+//        $this->Auth->allow(['add', 'logout']);
+        $this->Auth->allow();
     }
 
     //アクセス制限機能
@@ -146,6 +145,5 @@ class StoresController extends AppController
             return false; //みれない
         }
     }
-
 
 }

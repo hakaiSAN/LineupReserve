@@ -12,7 +12,6 @@ use Cake\ORM\Entity;
  * @property string $name
  * @property \Cake\I18n\Time $created
  * @property \Cake\I18n\Time $modified
- * @property string $loginname
  *
  * @property \App\Model\Entity\Event[] $events
  */
@@ -41,6 +40,7 @@ class Store extends Entity
     protected $_hidden = [
         'password'
     ];
+
     protected function _setPassword($password)
     {
       return(new WeakPasswordHasher)->hash($password);

@@ -50,7 +50,7 @@ class AppController extends Controller
             'Form'=> [
               'userModel' => 'Stores',
               'fields' => [
-              'username' => 'loginname',
+              'username' => 'name',
               'password' => 'password',
             ],
               'passwordHasher' => 'Weak'

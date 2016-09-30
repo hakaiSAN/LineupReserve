@@ -21,10 +21,6 @@
             <td><?= h($store->name) ?></td>
         </tr>
         <tr>
-            <th scope="row"><?= __('Loginname') ?></th>
-            <td><?= h($store->loginname) ?></td>
-        </tr>
-        <tr>
             <th scope="row"><?= __('Id') ?></th>
             <td><?= $this->Number->format($store->id) ?></td>
         </tr>

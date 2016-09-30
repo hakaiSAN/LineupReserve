@@ -13,7 +13,6 @@
         <?php
             echo $this->Form->input('password');
             echo $this->Form->input('name');
-            echo $this->Form->input('loginname');
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>
