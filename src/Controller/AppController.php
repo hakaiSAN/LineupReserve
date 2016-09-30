@@ -37,13 +37,15 @@ class AppController extends Controller
      *
      * @return void
      */
-    public function initialize()
+    // 認証機能追加 
+     public function initialize()
     {
         parent::initialize();
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
         //ログイン認証
         $this->loadComponent('Auth', [
+          'authorize' => 'Controller',
           'authenticate' => [
             'Form'=> [
               'userModel' => 'Stores',
@@ -74,5 +76,11 @@ class AppController extends Controller
         ) {
             $this->set('_serialize', true);
         }
+    }
+
+    //特定ページのみ閲覧可能機能 storeのみ使用
+    public function isAuthorized($store = null){
+        $this->set('id', $store['id']);
+        return true;
     }
 }

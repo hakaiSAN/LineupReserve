@@ -109,39 +109,43 @@ class StoresController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+    //認証機能
     public function login()
     {
       if($this->request->is(['post'])) {
-/*
-        $testname = $this->request->data['loginname'];
-        $testpass = $this->request->data['password'];
-        debug($testname);
-        debug($testpass);
- */
-        $hasher = new WeakPasswordHasher();
-        $bool = $hasher->hash($this->request->data['password']);
-//        debug($bool);
-//        $this->request->data['password'] = $bool;
-        $user = $this->Auth->identify();
-//        debug($this->Auth);
-//        debug($this->request);
-        if($user){
-          $this->Auth->setUser($user);
-          return $this->redirect($this->Auth->redirectUrl());
-       } 
-//        else{
-            $this->Flash->error('ログインNameかパスワードが間違っています.');
-//        }
+            $store = $this->Auth->identify();
+            if($store){
+                $this->Auth->setUser($store);
+                return $this->redirect($this->Auth->redirectUrl());
+            } 
+            else{
+                $this->Flash->error('ログインNameかパスワードが間違っています.');
+            }
       }
     }
     public function logout() {
-      $this->redirect($this->Auth->logout());
+      return $this->redirect($this->Auth->logout());
     }
 
     public function beforeFilter(\Cake\Event\Event $event) {
         parent::beforeFilter($event);
-//        $this->Auth->allow(['add', 'logout']);
-        $this->Auth->allow();
+        $this->Auth->allow(['add', 'logout']);
+//        $this->Auth->allow();
 //        $this->Auth->deny(['delete']);
     }
+
+    //アクセス制限機能
+    public function isAuthorized($store = null) {
+        $action = $this->request->action; //どういった機能にいきたいかを検証
+        if(in_array($action, ['view','edit','delete'])) {
+            $req_id = (int)$this->request->params['pass'][0];
+            if($req_id == $store['id']){ //reqとloginユーザが等しいか
+//              debug('req ok');
+              return true;
+            }
+            return false; //みれない
+        }
+    }
+
+
 }
