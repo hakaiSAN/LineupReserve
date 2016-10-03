@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "82549dd2db1f8a2e208c81a55fc39998",
-    "content-hash": "1ede2fd8506b3de806baf7255c42a4c7",
+    "hash": "46c0e7035bcf1c3f4b267cc083ef1b88",
+    "content-hash": "fa39309ebccb1a575d9755bbae8ed28c",
     "packages": [
         {
             "name": "aura/installer-default",
@@ -128,16 +128,16 @@
         },
         {
             "name": "cakephp/cakephp",
-            "version": "3.3.4",
+            "version": "3.3.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/cakephp.git",
-                "reference": "85ed1aa01b49d242cca428c4973240a4818e1851"
+                "reference": "d1a1d304af8d04ef50add08d9610c224662b2295"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/cakephp/zipball/85ed1aa01b49d242cca428c4973240a4818e1851",
-                "reference": "85ed1aa01b49d242cca428c4973240a4818e1851",
+                "url": "https://api.github.com/repos/cakephp/cakephp/zipball/d1a1d304af8d04ef50add08d9610c224662b2295",
+                "reference": "d1a1d304af8d04ef50add08d9610c224662b2295",
                 "shasum": ""
             },
             "require": {
@@ -197,7 +197,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2016-09-25 00:59:08"
+            "time": "2016-09-30 01:33:11"
         },
         {
             "name": "cakephp/chronos",
@@ -343,6 +343,46 @@
             ],
             "description": "A composer installer for CakePHP 3.0+ plugins.",
             "time": "2016-04-28 03:01:34"
+        },
+        {
+            "name": "components/jquery",
+            "version": "3.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/components/jquery.git",
+                "reference": "09a1658378bc1f818856086396ebeab7d0ec2276"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/components/jquery/zipball/09a1658378bc1f818856086396ebeab7d0ec2276",
+                "reference": "09a1658378bc1f818856086396ebeab7d0ec2276",
+                "shasum": ""
+            },
+            "type": "component",
+            "extra": {
+                "component": {
+                    "scripts": [
+                        "jquery.js"
+                    ],
+                    "files": [
+                        "jquery.min.js",
+                        "jquery.min.map"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "John Resig",
+                    "email": "jeresig@gmail.com"
+                }
+            ],
+            "description": "jQuery JavaScript Library",
+            "homepage": "http://jquery.com",
+            "time": "2016-09-23 06:06:29"
         },
         {
             "name": "mobiledetect/mobiledetectlib",
@@ -918,16 +958,16 @@
         },
         {
             "name": "cakephp/debug_kit",
-            "version": "3.3.3",
+            "version": "3.3.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/debug_kit.git",
-                "reference": "7e806572be46795664fe97478a0dc1b22bdf1a2d"
+                "reference": "8b3fa35ef51b35611ae285d3d35a84b945dea245"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/debug_kit/zipball/7e806572be46795664fe97478a0dc1b22bdf1a2d",
-                "reference": "7e806572be46795664fe97478a0dc1b22bdf1a2d",
+                "url": "https://api.github.com/repos/cakephp/debug_kit/zipball/8b3fa35ef51b35611ae285d3d35a84b945dea245",
+                "reference": "8b3fa35ef51b35611ae285d3d35a84b945dea245",
                 "shasum": ""
             },
             "require": {
@@ -971,7 +1011,7 @@
                 "debug",
                 "kit"
             ],
-            "time": "2016-09-17 01:43:23"
+            "time": "2016-09-29 01:25:58"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",

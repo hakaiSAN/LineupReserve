@@ -22,7 +22,6 @@ class StoresFixture extends TestFixture
         'name' => ['type' => 'string', 'length' => 255, 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => '', 'precision' => null, 'fixed' => null],
         'created' => ['type' => 'datetime', 'length' => null, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null],
         'modified' => ['type' => 'datetime', 'length' => null, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null],
-        'loginname' => ['type' => 'string', 'length' => 255, 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => '', 'precision' => null, 'fixed' => null],
         '_constraints' => [
             'primary' => ['type' => 'primary', 'columns' => ['id'], 'length' => []],
         ],
@@ -43,9 +42,8 @@ class StoresFixture extends TestFixture
             'id' => 1,
             'password' => 'Lorem ipsum dolor sit amet',
             'name' => 'Lorem ipsum dolor sit amet',
-            'created' => '2016-09-29 05:19:13',
-            'modified' => '2016-09-29 05:19:13',
-            'loginname' => 'Lorem ipsum dolor sit amet'
+            'created' => '2016-09-30 08:08:39',
+            'modified' => '2016-09-30 08:08:39'
         ],
     ];
 }
