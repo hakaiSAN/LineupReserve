@@ -1,3 +1,7 @@
+<?php 
+    echo $this->Html->script('jquery.min.js');
+    echo $this->Html->script('/jquery-ui-1.12.1.custom/jquery-ui-custom.min.js');
+    ?>
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
@@ -10,16 +14,23 @@
 </nav>
 <div class="items form large-9 medium-8 columns content">
     <?= $this->Form->create(false) ?>
-    <fieldset>
         <legend><?= __('Add Item') ?></legend>
-        <?php for ($count=0 ; $count < 10; $count++):
-                echo $this->Form->input('items.' . $count . '.name');
-                echo $this->Form->input('items.' . $count . '.price');
-                echo $this->Form->input('items.' . $count . '.stock');
-                echo $this->Form->input('items.' . $count . '.event_id', ['options' => $events]);
-            endfor;
-        ?>
-    </fieldset>
+
+<div id="accordion">
+   <div>
+    <h3><a href="#">First</a></h3>
+       <div>Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.</div>
+   </div>
+<div>
+    <h3><a href="#">Second</a></h3>
+       <div>Phasellus mattis tincidunt nibh.</div>
+</div>
+<div>
+    <h3><a href="#">Third</a></h3>
+       <div>Nam dui erat, auctor a, dignissim quis.</div>
+</div>
+</div>
+
     <?= $this->Form->button(__('Submit')) ?>
     <?= $this->Form->end() ?>
 </div>
