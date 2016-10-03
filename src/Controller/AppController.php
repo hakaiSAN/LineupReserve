@@ -43,7 +43,6 @@ class AppController extends Controller
         parent::initialize();
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
-        //ログイン認証
         $this->loadComponent('Auth', [
           'authorize' => 'Controller',
           'authenticate' => [
@@ -61,7 +60,7 @@ class AppController extends Controller
           'action' => 'login',
         ]
       ]);
-    } 
+} 
 
     /**
      * Before render callback.
@@ -78,9 +77,10 @@ class AppController extends Controller
         }
     }
 
-    //特定ページのみ閲覧可能機能 storeのみ使用
-    public function isAuthorized($store = null){
+    //特定ページのみ閲覧可能機能 store idで使用
+     public function isAuthorized($store = null){
         $this->set('id', $store['id']);
         return true;
     }
+
 }

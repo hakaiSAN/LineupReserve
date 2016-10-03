@@ -9,6 +9,8 @@ use App\Controller\AppController;
  * @property \App\Model\Table\CustomersTable $Customers
  */
 class CustomersController extends AppController
+//class CustomersController extends AuthController
+//session管理なのでAuthじゃない
 {
 
     /**

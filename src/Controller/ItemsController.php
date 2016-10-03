@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\ORM\TableRegistry;
 
 /**
  * Items Controller
@@ -11,6 +12,10 @@ use App\Controller\AppController;
 class ItemsController extends AppController
 {
 
+  public function initialize(){
+    parent::initialize();
+    $this->itemable = TableRegistry::get('Items'); 
+  }
     /**
      * Index method
      *
@@ -51,11 +56,19 @@ class ItemsController extends AppController
      */
     public function add()
     {
-        $item = $this->Items->newEntity();
+        $itemtable = TableRegistry::get('Items');
+//        $item = $this->Items->newEntity();
         if ($this->request->is('post')) {
-            $item = $this->Items->patchEntity($item, $this->request->data);
-            if ($this->Items->save($item)) {
+            $items = $itemtable->newEntities($this->request->data('items'));
+            //            $item = $this->Items->patchEntity($item, $this->request->data);
+            foreach($items as $item){
+              if(!$item->errors()) {
+                $this->Items->save($item);
                 $this->Flash->success(__('The item has been saved.'));
+              }
+            }
+            if($this->set('items', $items)){
+//            if ($this->Items->save($item)) {
 
                 return $this->redirect(['action' => 'index']);
             } else {
@@ -63,8 +76,10 @@ class ItemsController extends AppController
             }
         }
         $events = $this->Items->Events->find('list', ['limit' => 200]);
-        $this->set(compact('item', 'events'));
-        $this->set('_serialize', ['item']);
+//        $this->set(compact('item', 'events'));
+//        $this->set('_serialize', ['item']);
+        $this->set(compact('items', 'events'));
+        $this->set('_serialize', ['Items']);
     }
 
     /**

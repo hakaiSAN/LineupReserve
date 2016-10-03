@@ -8,7 +8,7 @@ use App\Controller\AppController;
  *
  * @property \App\Model\Table\EventsTable $Events
  */
-class EventsController extends AppController
+class EventsController extends AuthController
 {
 
     /**
@@ -16,16 +16,20 @@ class EventsController extends AppController
      *
      * @return \Cake\Network\Response|null
      */
-    public function index()
+    public function index($store = null)
     {
+        $ownStoreFindOption = [ 'store_id' => $store['id']];
         $this->paginate = [
-            'contain' => ['Stores']
+            'contain' => ['Stores'],
+            'finder' => ['store_id' => $ownStoreFindOption]
         ];
         $events = $this->paginate($this->Events);
 
         $this->set(compact('events'));
+        
         $this->set('_serialize', ['events']);
     }
+
 
     /**
      * View method
@@ -37,7 +41,7 @@ class EventsController extends AppController
     public function view($id = null)
     {
         $event = $this->Events->get($id, [
-            'contain' => ['Stores', 'Processions']
+            'contain' => ['Stores', 'Processions', 'Items']
         ]);
 
         $this->set('event', $event);
@@ -83,7 +87,6 @@ class EventsController extends AppController
             $event = $this->Events->patchEntity($event, $this->request->data);
             if ($this->Events->save($event)) {
                 $this->Flash->success(__('The event has been saved.'));
-
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__('The event could not be saved. Please, try again.'));
@@ -113,4 +116,13 @@ class EventsController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+
+
+    //アクセス制限機能
+    public function isAuthorized($store = null, $allowedActions = ['view', 'edit', 'delete']) {
+//    public function isAuthorized($store = null, $allowedActions = null) {
+      parent::isAuthorized();
+    }
+
+
 }

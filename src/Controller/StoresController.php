@@ -2,13 +2,14 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use App\Controller\AuthController;
 
 /**
  * Stores Controller
  *
  * @property \App\Model\Table\StoresTable $Stores
  */
-class StoresController extends AppController
+class StoresController extends AuthController
 {
 
     /**
@@ -127,23 +128,11 @@ class StoresController extends AppController
       return $this->redirect($this->Auth->logout());
     }
 
+/*
     public function beforeFilter(\Cake\Event\Event $event) {
         parent::beforeFilter($event);
 //        $this->Auth->allow(['add', 'logout']);
         $this->Auth->allow();
     }
-
-    //アクセス制限機能
-    public function isAuthorized($store = null) {
-        $action = $this->request->action; //どういった機能にいきたいかを検証
-        if(in_array($action, ['view','edit','delete'])) {
-            $req_id = (int)$this->request->params['pass'][0];
-            if($req_id == $store['id']){ //reqとloginユーザが等しいか
-//              debug('req ok');
-              return true;
-            }
-            return false; //みれない
-        }
-    }
-
+ */
 }
