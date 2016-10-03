@@ -18,15 +18,15 @@ class EventsController extends AuthController
      */
     public function index($store = null)
     {
-        $ownStoreFindOption = [ 'store_id' => $store['id']];
+        $usrid =$this->Auth->user('id');
+        $ownStoreFindOption = [ 'store_id' => $usrid];
         $this->paginate = [
             'contain' => ['Stores'],
-            'finder' => ['store_id' => $ownStoreFindOption]
+            'conditions' => $ownStoreFindOption
         ];
         $events = $this->paginate($this->Events);
 
         $this->set(compact('events'));
-        
         $this->set('_serialize', ['events']);
     }
 
@@ -116,13 +116,5 @@ class EventsController extends AuthController
 
         return $this->redirect(['action' => 'index']);
     }
-
-
-    //アクセス制限機能
-    public function isAuthorized($store = null, $allowedActions = ['view', 'edit', 'delete']) {
-//    public function isAuthorized($store = null, $allowedActions = null) {
-      parent::isAuthorized();
-    }
-
 
 }

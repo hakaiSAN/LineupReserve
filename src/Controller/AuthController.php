@@ -14,7 +14,6 @@
  */
 namespace App\Controller;
 
-use Cake\Controller\Controller;
 use App\Controller\AppController;
 
 /**
@@ -28,13 +27,12 @@ use App\Controller\AppController;
 class AuthController extends AppController
 {
     // 認証機能追加 
-
-
     public function beforeFilter(\Cake\Event\Event $event) {
         parent::beforeFilter($event);
         $this->Auth->allow(['add', 'logout']);
 //        $this->Auth->allow();
     }
+
 
   //アクセス制限機能
     public function isAuthorized($store = null) {
@@ -45,7 +43,9 @@ class AuthController extends AppController
             if($req_id == $store['id']){ //reqとloginユーザが等しいか
               return true;
             }
-            return false; //みれない
+            return false; //一致していないので見れない
         }
+        return true;
     }
+
 }
