@@ -23,7 +23,7 @@
                 <td><?= h($event->date) ?></td>
                 <td><?= h($event->location) ?></td>
                 <td><?= h($event->store->name) ?></td>
-                <td><?= $this->Html->link(__('View'), ['action' => 'viewExternal', $event->id]) ?></td>
+                <td><?= $this->Html->link(__('View'), ['action' => 'view', $event->id]) ?></td>
             </tr>
             <?php endforeach; ?>
         </tbody>

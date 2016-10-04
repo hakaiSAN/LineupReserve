@@ -15,6 +15,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Controller\Controller;
 
 /**
  * Application Controller
@@ -29,7 +30,8 @@ class AuthController extends AppController
     // 認証機能追加 
     public function beforeFilter(\Cake\Event\Event $event) {
         parent::beforeFilter($event);
-        $this->Auth->allow(['add', 'logout']);
+//        $this->Auth->allow(['add', 'logout']);
+        $this->Auth->deny(['index']);
 //        $this->Auth->allow();
     }
 

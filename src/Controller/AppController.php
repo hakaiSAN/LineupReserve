@@ -77,6 +77,11 @@ class AppController extends Controller
         }
     }
 
+    public function beforeFilter(\Cake\Event\Event $event) {
+        parent::beforeFilter($event);
+        $this->Auth->allow(); //すべてのページを許可
+    }
+
     //特定ページのみ閲覧可能機能 store idで使用
      public function isAuthorized($store = null){
         $this->set('id', $store['id']);
