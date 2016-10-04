@@ -54,7 +54,6 @@ class StoresController extends AuthController
             $store = $this->Stores->patchEntity($store, $this->request->data);
             if ($this->Stores->save($store)) {
                 $this->Flash->success(__('The store has been saved.'));
-
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__('The store could not be saved. Please, try again.'));
@@ -128,11 +127,25 @@ class StoresController extends AuthController
       return $this->redirect($this->Auth->logout());
     }
 
-/*
+// 本来はindexは誰にも見えない
     public function beforeFilter(\Cake\Event\Event $event) {
         parent::beforeFilter($event);
-//        $this->Auth->allow(['add', 'logout']);
-        $this->Auth->allow();
+        $this->Auth->allow(['add', 'logout']);
+//        $this->Auth->deny(['index']);
     }
- */
+
+    //アクセス制限機能 //Controllerごとに認証方法が異なるため再定義が必要
+    public function isAuthorized($store = null) {
+        $action = $this->request->action; //どういった機能にいきたいかを検証
+        if(in_array($action, ['view', 'edit', 'delete'])) {
+            //要検討
+            $req_id = (int)$this->request->params['pass'][0];
+            if($req_id == $store['id']){ //reqとloginユーザが等しいか
+              return true;
+            }
+            return false; //一致していないので見れない
+        }
+        return true;
+    }
+
 }

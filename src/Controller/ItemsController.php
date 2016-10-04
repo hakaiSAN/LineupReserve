@@ -1,7 +1,7 @@
 <?php
 namespace App\Controller;
 
-use App\Controller\AppController;
+use App\Controller\AuthController;
 use Cake\ORM\TableRegistry;
 
 /**
@@ -9,7 +9,7 @@ use Cake\ORM\TableRegistry;
  *
  * @property \App\Model\Table\ItemsTable $Items
  */
-class ItemsController extends AppController
+class ItemsController extends AuthController
 {
 
   public function initialize(){
@@ -91,9 +91,12 @@ class ItemsController extends AppController
      */
     public function edit($id = null)
     {
+      /*
         $item = $this->Items->get($id, [
             'contain' => []
         ]);
+       */
+      $item = $this->preItem;
         if ($this->request->is(['patch', 'post', 'put'])) {
             $item = $this->Items->patchEntity($item, $this->request->data);
             if ($this->Items->save($item)) {
@@ -119,7 +122,8 @@ class ItemsController extends AppController
     public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
-        $item = $this->Items->get($id);
+        //$item = $this->Items->get($id);
+        $item = $this->preItem;
         if ($this->Items->delete($item)) {
             $this->Flash->success(__('The item has been deleted.'));
         } else {
@@ -128,10 +132,27 @@ class ItemsController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
-//    public function beforeFilter(\Cake\Event\Event $event) {
-//        parent::beforeFilter($event);
-//        $this->Auth->allow(['add', 'logout']);
-//        $this->Auth->allow();
-//        $this->Auth->deny(['delete']);
-//    }
+
+    //アクセス制限機能 //Controllerごとに認証方法が異なるため再定義が必要
+    public function isAuthorized() {
+        $action = $this->request->action; //どういった機能にいきたいかを検証
+        if(in_array($action, ['view', 'edit', 'delete'])) {
+            $login_store_id =$this->Auth->user('id'); //ログインしている店舗IDを取得
+            $req_id = (int)$this->request->params['pass'][0];
+            $this->preItem = $this->Items->get($req_id, [ //Event情報をpredict
+            'contain' => ['Events']
+            ]);
+            $tmp_event = TableRegistry::get('Events')->get($this->preItem->event->id, [//Event情報をpredict
+                'contain' => ['Stores']
+            ]);
+            $req_store_id  = $tmp_event->store->id;
+            if($req_store_id == $login_store_id){ //reqとloginユーザが等しいか
+              return true;
+            }
+            return false; //一致していないので見れない
+        }
+        return true;
+    }
+
+
 }

@@ -27,27 +27,12 @@ use Cake\Controller\Controller;
  */
 class AuthController extends AppController
 {
-    // 認証機能追加 
+    // 認証機能追加  //全ページ不許可 Controllerごとにallowで制限
     public function beforeFilter(\Cake\Event\Event $event) {
-        parent::beforeFilter($event);
-//        $this->Auth->allow(['add', 'logout']);
-        $this->Auth->deny(['index']);
+        Controller::beforeFilter($event);
 //        $this->Auth->allow();
     }
 
 
-  //アクセス制限機能
-    public function isAuthorized($store = null) {
-        $action = $this->request->action; //どういった機能にいきたいかを検証
-        if(in_array($action, ['view', 'edit', 'delete'])) {
-            //要検討
-            $req_id = (int)$this->request->params['pass'][0];
-            if($req_id == $store['id']){ //reqとloginユーザが等しいか
-              return true;
-            }
-            return false; //一致していないので見れない
-        }
-        return true;
-    }
 
 }
