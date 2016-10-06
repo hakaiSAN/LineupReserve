@@ -27,6 +27,10 @@ use Cake\Controller\Controller;
  */
 class AuthController extends AppController
 {
+     public function initialize()
+    {
+        parent::initialize();
+    }  
     // 認証機能追加  //全ページ不許可 Controllerごとにallowで制限
     public function beforeFilter(\Cake\Event\Event $event) {
         Controller::beforeFilter($event);

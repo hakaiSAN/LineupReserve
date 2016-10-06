@@ -36,10 +36,12 @@ class SessionController extends AppController
         // セッション確認機能追加  //全ページ不許可 Controllerごとにallowで制限
     public function beforeFilter(\Cake\Event\Event $event) {
         parent::beforeFilter($event);
+        //        
+//        $this->Auth->allow();
         //セッション情報を確認
-         if(!($this->Session->check('Customer.id')) && !($this->Session->check('Customer.status'))){ //2回呼び出すのをふせぐ
-           $this->Session->write('Customer.status','1'); //呼び出す前に書き込み状態
+              if(($this->action == 'addSession') && !($this->Session->check('Customer.id')) && !($this->Session->check('Customer.status'))){ //2回呼び出すのをふせぐ
             $this->redirect(['controller' => 'Customers', 'action'=> 'addSession']);
         }
+        return false;
     }
 }

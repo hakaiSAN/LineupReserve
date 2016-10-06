@@ -66,19 +66,22 @@ class CustomersController extends SessionController
         $this->set('_serialize', ['customer']);
     }
 //*/
- public function addSession()
+ public function addSession($id = null)
     {
+      if(!$this->Session->check('Customer.id')){
         $customer = $this->Customers->newEntity();
         $customer = $this->Customers->patchEntity($customer, $this->request->data);
         if($this->Customers->save($customer)){
         $this->Session->write('Customer.id', $customer->id);
             $this->Flash->success(__('The customer has been saved.'));
-            return $this->redirect(['controller' => 'Customers', 'action'=> 'index']);
+//            return $this->redirect(['controller' => 'Customers', 'action'=> 'index']);
         } else {
             $this->Flash->error(__('The customer could not be saved. Please, try again.'));
         }
+      }
         $this->set(compact('customer'));
         $this->set('_serialize', ['customer']);
+      return $this->redirect(['controller' => 'Customers', 'action'=> 'index']);
     }
     /**
      * Edit method

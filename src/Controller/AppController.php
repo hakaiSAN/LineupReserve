@@ -80,10 +80,8 @@ class AppController extends Controller
             $this->set('_serialize', true);
         }
     }
-        
     public function beforeFilter(\Cake\Event\Event $event) {
-        parent::beforeFilter($event);
-//        $this->Auth->deny(['index']);
+        Controller::beforeFilter($event);
         $this->Auth->allow();
     }
 
