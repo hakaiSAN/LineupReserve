@@ -21,7 +21,8 @@
         <?php
             echo $this->Form->input('date');
             echo $this->Form->input('location');
-            echo $this->Form->input('store_id', ['options' => $stores]);
+//            echo $this->Form->input('store_id', ['options' => $stores]);
+            echo $this->Form->hidden('store_id'); //Controller側で制御
             echo $this->Form->input('name');
         ?>
     </fieldset>
