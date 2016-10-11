@@ -152,7 +152,8 @@ return [
     'Error' => [
         'errorLevel' => E_ALL,
         'exceptionRenderer' => 'Cake\Error\ExceptionRenderer',
-        'skipLog' => [],
+        'skipLog' => [
+        ],
         'log' => true,
         'trace' => true,
     ],

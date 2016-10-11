@@ -17,6 +17,7 @@ namespace App\Controller;
 use App\Controller\AppController;
 use Cake\Controller\Controller;
 use Cake\Event\Event;
+use Cake\Network\Exception\NotFoundException;
 
 /**
  * Application Controller
@@ -43,5 +44,6 @@ class SessionController extends AppController
            $this->Session->write('Customer.status','1'); //呼び出す前に書き込み状態
             $this->redirect(['controller' => 'Customers', 'action'=> 'addSession']);
         }
+//        throw new NotFoundException('このイベントは存在しません');
     }
 }

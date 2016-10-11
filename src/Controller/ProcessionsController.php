@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Network\Exception\NotFoundException;
 
 /**
  * Processions Controller
@@ -49,19 +50,24 @@ class ProcessionsController extends AppController
      *
      * @return \Cake\Network\Response|void Redirects on successful add, renders view otherwise.
      */
-    public function add()
+    public function add($id = null)
     {
         $procession = $this->Processions->newEntity();
-        if ($this->request->is('post')) {
+//        if ($this->request->is('post')) {
+          if(($id == null) || !($this->request->session()->check('Customer.id'))){
+                //Error
+                throw new NotFoundException('このイベントは存在しません');
+          }
+          $this->request->data['event_id'] = $id;
+          $this->request->data['customer_id'] = $this->request->session()->read('Customer.id');
             $procession = $this->Processions->patchEntity($procession, $this->request->data);
             if ($this->Processions->save($procession)) {
                 $this->Flash->success(__('The procession has been saved.'));
-
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__('The procession could not be saved. Please, try again.'));
             }
-        }
+//        }
         $customers = $this->Processions->Customers->find('list', ['limit' => 200]);
         $events = $this->Processions->Events->find('list', ['limit' => 200]);
         $this->set(compact('procession', 'customers', 'events'));

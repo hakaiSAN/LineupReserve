@@ -51,6 +51,7 @@ Router::prefix('store', function ($routes){
 
 Router::prefix('usr', function ($routes){
     $routes->connect ('/', ['controller' => 'Customers', 'action' => 'index']);
+    $routes->connect ('/add-session/:secid', ['controller' => 'Customers', 'action' => 'add-session']);
     $routes->connect ('/:controller', ['action' => 'index']);
     $routes->fallbacks(DashedRoute::class);
 });

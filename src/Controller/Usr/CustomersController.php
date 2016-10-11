@@ -3,6 +3,9 @@ namespace App\Controller\Usr;
 
 use App\Controller\SessionController;
 use App\Controller\AppController;
+use Cake\ORM\TableRegistry;
+use Cake\Utility\Security;
+use Cake\Network\Exception\NotFoundException;
 
 /**
  * Customers Controller
@@ -68,14 +71,35 @@ class CustomersController extends SessionController
         $this->set('_serialize', ['customer']);
     }
 */
- public function addSession()
+ public function addSession($secid = null)
+   //正しいIDのみユーザの追加と行列の追加
     {
+/* //TODO: 暗号化チャレンジ
+      $salt = Configure::read('salt');
+        $eventkey = 'YQyEgAtRqx5BQiiVvihZhHjpPPJHZVRQ';
+        $result = Security::encrypt('1', $eventkey, $salt);
+        $event_id = Security::decrypt($secid, $eventkey, $salt);
+        $this->log($result, LOG_DEBUG);
+        $this->log($event_id, LOG_DEBUG);
+ */ 
+        $event_id = $secid;
+        $add_event = TableRegistry::get('Events')->get($event_id);//Event情報をpredict
+      /*　ホントは存在しないExceptionのほうが望ましい
+      if($add_event == null) {
+          throw new NotFoundException('このイベントは存在しません');
+      }
+       */
         $customer = $this->Customers->newEntity();
         $customer = $this->Customers->patchEntity($customer, $this->request->data);
         if(!($this->Session->check('Customer.id'))){
         if($this->Customers->save($customer)){
             $this->Session->write('Customer.id', $customer->id);
             debug($this->Session->read('Customer.id'));
+            $this->redirect(
+                [ 'controller' => 'Processions',
+                    'action' => 'add', 
+                    $event_id
+              ]);
             $this->Flash->success(__('The customer has been saved.'));
             return $this->redirect(['controller' => 'Customers', 'action'=> 'index']);
         } else {
