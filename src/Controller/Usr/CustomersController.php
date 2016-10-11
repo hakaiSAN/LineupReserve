@@ -9,9 +9,10 @@ use App\Controller\AppController;
  *
  * @property \App\Model\Table\CustomersTable $Customers
  */
-//class CustomersController extends SessionController
-class CustomersController extends AppController
+class CustomersController extends SessionController
 //session管理なのでAuthじゃない
+//class CustomersController extends AppController
+//for debug
 {
 
     /**
@@ -49,7 +50,7 @@ class CustomersController extends AppController
      *
      * @return \Cake\Network\Response|void Redirects on successful add, renders view otherwise.
      */
-///*
+/*
     public function add()
     {
         $customer = $this->Customers->newEntity();
@@ -66,13 +67,15 @@ class CustomersController extends AppController
         $this->set(compact('customer'));
         $this->set('_serialize', ['customer']);
     }
-//*/
+*/
  public function addSession()
     {
         $customer = $this->Customers->newEntity();
         $customer = $this->Customers->patchEntity($customer, $this->request->data);
+        if(!($this->Session->check('Customer.id'))){
         if($this->Customers->save($customer)){
-        $this->Session->write('Customer.id', $customer->id);
+            $this->Session->write('Customer.id', $customer->id);
+            debug($this->Session->read('Customer.id'));
             $this->Flash->success(__('The customer has been saved.'));
             return $this->redirect(['controller' => 'Customers', 'action'=> 'index']);
         } else {
@@ -80,6 +83,10 @@ class CustomersController extends AppController
         }
         $this->set(compact('customer'));
         $this->set('_serialize', ['customer']);
+        } else {
+            $this->autoRender = false;
+            return $this->redirect(['controller' => 'Customers', 'action'=> 'index']);
+        }
     }
     /**
      * Edit method
