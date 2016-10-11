@@ -2,14 +2,15 @@
 namespace App\Controller\Usr;
 
 use App\Controller\SessionController;
+use App\Controller\AppController;
 
 /**
  * Customers Controller
  *
  * @property \App\Model\Table\CustomersTable $Customers
  */
-class CustomersController extends SessionController
-//class CustomersController extends AuthController
+//class CustomersController extends SessionController
+class CustomersController extends AppController
 //session管理なのでAuthじゃない
 {
 

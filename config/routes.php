@@ -43,6 +43,19 @@ use Cake\Routing\Route\DashedRoute;
  */
 Router::defaultRouteClass(DashedRoute::class);
 
+Router::prefix('store', function ($routes){
+    $routes->connect ('/', ['controller' => 'Stores', 'action' => 'login']);
+    $routes->connect ('/:controller', ['action' => 'index']);
+    $routes->fallbacks(DashedRoute::class);
+});
+
+Router::prefix('usr', function ($routes){
+    $routes->connect ('/', ['controller' => 'Customers', 'action' => 'index']);
+    $routes->connect ('/:controller', ['action' => 'index']);
+    $routes->fallbacks(DashedRoute::class);
+});
+
+
 Router::scope('/', function (RouteBuilder $routes) {
     /**
      * Here, we are connecting '/' (base path) to a controller called 'Pages',
@@ -50,8 +63,9 @@ Router::scope('/', function (RouteBuilder $routes) {
      * to use (in this case, src/Template/Pages/home.ctp)...
      */
 //    $routes->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
-    $routes->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
+//    $routes->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
 //    $routes->connect('/', ['controller' => 'Stores', 'action' => 'login']);
+    $routes->connect('/', ['controller' => 'Commons', 'action' => 'index']);
 
     /**
      * ...and connect the rest of 'Pages' controller's URLs.
@@ -59,7 +73,7 @@ Router::scope('/', function (RouteBuilder $routes) {
 //    $routes->connect('/pages/*', ['controller' => 'Pages', 'action' => 'display']);
 //    $routes->connect('/pages/*', ['controller' => 'Pages', 'action' => 'display']);
 
-  $routes->connect('/:controller', ['action' => 'index'], ['routeClass' => 'DashedRoute']);
+//  $routes->connect('/:controller', ['action' => 'index'], ['routeClass' => 'DashedRoute']);
     /**
      * Connect catchall routes for all controllers.
      *

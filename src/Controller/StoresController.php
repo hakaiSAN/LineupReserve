@@ -112,6 +112,7 @@ class StoresController extends AuthController
     public function login()
     {
       if($this->request->is(['post'])) {
+<<<<<<< HEAD
             $store = $this->Auth->identify();
             if($store){
                 $this->Auth->setUser($store);
@@ -120,6 +121,25 @@ class StoresController extends AuthController
             else{
                 $this->Flash->error('Nameかパスワードが間違っています.');
             }
+=======
+        $hasher = new DefaultPasswordHasher();
+        $testname = $this->request->data['loginname'];
+        $testpass = $this->request->data['password'];
+        $bool = $hasher->hash($this->request->data['password']);
+        debug($testname);
+        debug($testpass);
+        debug($this->request);
+        debug($bool);
+//        debug($this->Auth);
+        $user = $this->Auth->identify();
+        if($user){
+          $this->Auth->setUser($user);
+          return $this->redirect($this->Auth->redirectUrl());
+       } 
+//        else{
+            $this->Flash->error('ログインNameかパスワードが間違っています.');
+//        }
+>>>>>>> b5c829e... WIP on login: 71ec013 tmp
       }
     }
 
