@@ -39,12 +39,12 @@
                 <th scope="col"><?= __('Reserved') ?></th>
                 <th scope="col" class="itemactions"><?= __('Actions') ?></th>
             </tr>
-            <?php foreach ($event->items as $items): ?>
+            <?php foreach ($event->items as $item): ?>
             <tr>
-                <td><?= h($items->name) ?></td>
-                <td><?= h($items->price) ?></td>
-                <td><?= h($items->stock) ?></td>
-                <td>これから</td>
+                <td><?= h($item->name) ?></td>
+                <td><?= h($item->price) ?></td>
+                <td><?= h($item->stock) ?></td>
+                <td><?= h($reserves[$item->id]) ?></td>
                 <td class="itemactions">
                     予約する
                 </td>

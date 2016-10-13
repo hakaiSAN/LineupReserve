@@ -31,6 +31,10 @@
             <td><?= $this->Number->format($item->price) ?></td>
         </tr>
         <tr>
+            <th scope="row"><?= __('Reserves') ?></th>
+            <td><?= $this->Number->format($reserves[$item->id]) ?></td>
+        </tr>
+        <tr>
             <th scope="row"><?= __('Stock') ?></th>
             <td><?= $this->Number->format($item->stock) ?></td>
         </tr>
@@ -48,8 +52,7 @@
         <?php if (!empty($item->details)): ?>
         <table cellpadding="0" cellspacing="0">
             <tr>
-                <th scope="col"><?= __('Id') ?></th>
-                <th scope="col"><?= __('Item Id') ?></th>
+                <th scope="col"><?= __('Detail Id') ?></th>
                 <th scope="col"><?= __('Order Id') ?></th>
                 <th scope="col"><?= __('Number') ?></th>
                 <th scope="col"><?= __('Created') ?></th>
@@ -59,7 +62,6 @@
             <?php foreach ($item->details as $details): ?>
             <tr>
                 <td><?= h($details->id) ?></td>
-                <td><?= h($details->item_id) ?></td>
                 <td><?= h($details->order_id) ?></td>
                 <td><?= h($details->number) ?></td>
                 <td><?= h($details->created) ?></td>
