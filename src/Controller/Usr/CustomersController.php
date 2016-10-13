@@ -44,7 +44,17 @@ class CustomersController extends SessionController
         $customer = $this->Customers->get($id, [
             'contain' => ['Orders', 'Processions']
         ]);
-
+        $processions = TableRegistry::get('Processions');
+        $event_id = $this->Session->read('Customer.event');
+        $total = $processions->find('all',['conditions' => ['event_id' => $event_id]])->count(); //全体で何人並んでいるか
+        $position = $processions->find('all', [
+          'conditions' => [
+            'modified <'  => $customer->modified,
+            'event_id'  => $event_id
+          ]
+        ])->count() + 1; //自分は何番目か
+        $this->set('position', $position);
+        $this->set('total', $total);
         $this->set('customer', $customer);
         $this->set('_serialize', ['customer']);
     }
@@ -96,7 +106,7 @@ class CustomersController extends SessionController
           if($this->Customers->save($customer)) {
 //            if($this->Customers->save($customer)){
                 $this->Session->write('Customer.id', $customer->id);
-                $this->Session->write('Customer.Event', $id);
+                $this->Session->write('Customer.event', $id);
                 return $this->redirect(['controller' => 'Customers','action'=> 'index']);
             } else {
                 $this->Flash->error(__('The customer could not be saved. Please, try again.'));

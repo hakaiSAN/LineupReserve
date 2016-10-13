@@ -9,13 +9,14 @@
     </ul>
 </nav>
 <div class="details form large-9 medium-8 columns content">
-    <?= $this->Form->create($detail) ?>
+    <?= $this->Form->create(false) ?>
     <fieldset>
         <legend><?= __('Add Detail') ?></legend>
-        <?php
-            echo $this->Form->input('item_id', ['options' => $items]);
-            echo $this->Form->input('order_id', ['options' => $orders]);
-            echo $this->Form->input('number');
+        <?php for ($count=0 ; $count < 10; $count++):
+                echo $this->Form->input('details.' . $count . '.item_id', ['options' => $items]);
+//                echo $this->Form->input('details.' . $count . '.order_id', ['options' => $orders]);
+                echo $this->Form->input('details.' . $count . '.number');
+            endfor;
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

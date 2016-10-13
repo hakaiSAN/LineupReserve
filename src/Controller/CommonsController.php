@@ -37,7 +37,6 @@ class CommonsController extends AppController
             'contain' => ['Stores', 'Processions', 'Items']
           ]);
         $processions = TableRegistry::get('Processions');
-//        $total = $processions->find('count',['condition' [$processions.id => $id]]);
         $total = $processions->find('all',['conditions' => ['event_id' => $id]])->count();
         $this->set('event', $event);
         $this->set('total', $total);

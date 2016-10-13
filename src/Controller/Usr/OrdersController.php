@@ -54,6 +54,7 @@ class OrdersController extends SessionController
     {
         $order = $this->Orders->newEntity();
         if ($this->request->is('post')) {
+            $this->request->data['customer_id'] = $this->Session->read('Customer.id');
             $order = $this->Orders->patchEntity($order, $this->request->data);
             if ($this->Orders->save($order)) {
                 $this->Flash->success(__('The order has been saved.'));
@@ -63,7 +64,6 @@ class OrdersController extends SessionController
                 $this->Flash->error(__('The order could not be saved. Please, try again.'));
             }
         }
-        $customers = $this->Orders->Customers->find('list', ['limit' => 200]);
         $this->set(compact('order', 'customers'));
         $this->set('_serialize', ['order']);
     }

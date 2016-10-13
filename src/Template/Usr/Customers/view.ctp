@@ -26,6 +26,10 @@
             <th scope="row"><?= __('Modified') ?></th>
             <td><?= h($customer->modified) ?></td>
         </tr>
+        <tr>
+            <th scope="row"><?= __('Position') ?></th>
+            <td><?= h($position) . '/' . h($total) ?></td>
+        </tr>
     </table>
     <div class="related">
         <h4><?= __('Related Orders') ?></h4>

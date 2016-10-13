@@ -13,7 +13,6 @@
     <fieldset>
         <legend><?= __('Add Order') ?></legend>
         <?php
-            echo $this->Form->input('customer_id', ['options' => $customers]);
             echo $this->Form->input('paid');
         ?>
     </fieldset>

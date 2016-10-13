@@ -350,7 +350,7 @@ return [
         'checkAgent' => false,
         'ini' => [
 //          'session.cookie_name' => 'yCookie',
-          'session.cookie_lifetime' => 1800,
+//          'session.cookie_lifetime' => 1800,
 //          'session.cookie_path' => '/usr'
         ]
     ],

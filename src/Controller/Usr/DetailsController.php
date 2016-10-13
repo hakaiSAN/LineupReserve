@@ -4,6 +4,9 @@ namespace App\Controller\Usr;
 use App\Controller\AppController;
 use App\Controller\SessionController;
 
+use Cake\ORM\TableRegistry;
+use Cake\Network\Exception\InternalErrorException;
+
 /**
  * Details Controller
  *
@@ -52,19 +55,47 @@ class DetailsController extends SessionController
      */
     public function add()
     {
-        $detail = $this->Details->newEntity();
-        if ($this->request->is('post')) {
-            $detail = $this->Details->patchEntity($detail, $this->request->data);
-            if ($this->Details->save($detail)) {
-                $this->Flash->success(__('The detail has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
-            } else {
-                $this->Flash->error(__('The detail could not be saved. Please, try again.'));
+        $detailtable = TableRegistry::get('Details');
+        $order = null;
+//        $detail = $this->Details->newEntity();
+        if ($this->request->is('post') && !($this->Session->check('Customer.order'))) { //まだ発注していない
+            $details = $detailtable->newEntities($this->request->data('details'));
+            foreach($details as $detail){
+                if(!$detail->errors()) {
+                    //order発行
+                    if($order == null){
+                        $orders = TableRegistry::get('Orders');
+                        $order = $orders->newEntity();
+                        $req_data['customer_id'] = $this->Session->read('Customer.id');
+                        $req_data['paid'] = null;
+                        $order = $orders->patchEntity($order, $req_data);
+                        debug($order);
+                        if (!$orders->save($order)) {
+                          throw new InternalErrorException;
+                          //エラー発生 
+                        }
+                    } 
+//            $detail = $this->Details->patchEntity($detail, $this->request->data);
+                        $detail['order_id'] = $order->id;
+                        $this->Details->save($detail);
+                        $this->Flash->success(__('The detail has been saved.'));
+                    }
+                }
+//            if ($this->Details->save($detail)) {
+                if($this->set('details', $details)){
+                    $this->Session->write('Customer.order', 1); //二回発注しないようにする　編集のみ
+                    return $this->redirect(['action' => 'index']);
+                } else {
+                    $this->Flash->error(__('The detail could not be saved. Please, try again.'));
+                }
             }
-        }
-        $items = $this->Details->Items->find('list', ['limit' => 200]);
-        $orders = $this->Details->Orders->find('list', ['limit' => 200]);
+        $items = $this->Details->Items->find('list', [
+          'keyField' => 'id',
+          'valueField' => 'name',
+          'conditions' => [ 'event_id' => $this->Session->read('Customer.event')]
+        ]);
+        //order番号は自動的に付与
+//        $orders = $this->Details->Orders->find('list', ['limit' => 200]);
         $this->set(compact('detail', 'items', 'orders'));
         $this->set('_serialize', ['detail']);
     }

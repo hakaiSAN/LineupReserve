@@ -64,8 +64,8 @@ class OrdersTable extends Table
 
         $validator
             ->dateTime('paid')
-            ->requirePresence('paid', 'create')
-            ->notEmpty('paid');
+//            ->requirePresence('paid', 'create');
+            ->allowEmpty('paid');
 
         return $validator;
     }
