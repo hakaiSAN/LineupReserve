@@ -5,6 +5,9 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use Cake\ORM\TableRegistry;
+use Cake\Network\Exception\NotFoundException;
+use Cake\Routing\Router;
 
 /**
  * Customers Model
@@ -63,4 +66,27 @@ class CustomersTable extends Table
 
         return $validator;
     }
+
+    public function afterSave(\Cake\Event\Event $event, \Cake\Datasource\EntityInterface $entity, $options){
+        $procession = TableRegistry::get('Processions')->newEntity();
+        $req_data = $procession; //before validation 
+        //debug($entity);
+        //url制御
+        $url = Router::url();
+        $params = Router::parse($url);
+        //debug($params);
+        $id = $params['pass'][2];
+        $req_data['event_id'] = $id; //urlの中に仕込まれてる
+        $req_data['customer_id'] = $entity['id'];
+        $procession = TableRegistry::get('Processions')->patchEntity($procession, $req_data);
+//        debug($procession);
+        if (TableRegistry::get('Processions')->save($procession)) {
+//            $this->Flash->success(__('The procession has been saved.'));
+        } else {
+//            $this->Flash->error(__('The procession could not be saved. Please, try again.'));
+        }
+//        $this->set(compact('procession', 'customers', 'events'));
+//        $this->set('_serialize', ['procession']);
+    }
+
 }

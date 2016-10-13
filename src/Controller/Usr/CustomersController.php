@@ -71,7 +71,7 @@ class CustomersController extends SessionController
         $this->set('_serialize', ['customer']);
     }
 */
- public function addSession($secid = null)
+ public function lineup($secid = null)
    //正しいIDのみユーザの追加と行列の追加
     {
 /* //TODO: 暗号化チャレンジ
@@ -92,19 +92,14 @@ class CustomersController extends SessionController
         $customer = $this->Customers->newEntity();
         $customer = $this->Customers->patchEntity($customer, $this->request->data);
         if(!($this->Session->check('Customer.id'))){
-        if($this->Customers->save($customer)){
-            $this->Session->write('Customer.id', $customer->id);
-            debug($this->Session->read('Customer.id'));
-            $this->redirect(
-                [ 'controller' => 'Processions',
-                    'action' => 'add', 
-                    $event_id
-              ]);
-            $this->Flash->success(__('The customer has been saved.'));
-            return $this->redirect(['controller' => 'Customers', 'action'=> 'index']);
-        } else {
-            $this->Flash->error(__('The customer could not be saved. Please, try again.'));
-        }
+            if($this->Customers->save($customer)){
+                $this->Session->write('Customer.id', $customer->id);
+//                debug($this->Session->read('Customer.id'));
+                $this->Flash->success(__('The customer has been saved.'));
+                return $this->redirect(['controller' => 'Customers', 'action'=> 'index']);
+            } else {
+                $this->Flash->error(__('The customer could not be saved. Please, try again.'));
+            }
         $this->set(compact('customer'));
         $this->set('_serialize', ['customer']);
         } else {

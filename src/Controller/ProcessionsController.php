@@ -50,6 +50,7 @@ class ProcessionsController extends AppController
      *
      * @return \Cake\Network\Response|void Redirects on successful add, renders view otherwise.
      */
+/*
     public function add($id = null)
     {
         $procession = $this->Processions->newEntity();
@@ -73,7 +74,7 @@ class ProcessionsController extends AppController
         $this->set(compact('procession', 'customers', 'events'));
         $this->set('_serialize', ['procession']);
     }
-
+ */
     /**
      * Edit method
      *
