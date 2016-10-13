@@ -25,7 +25,7 @@
         </tr>
         <tr>
             <th scope="row"><?= __('Procession') ?></th>
-            <td>行列の現時点の人数これから</td>
+            <td><?= h($total) ?></td>
         </tr>
     </table>
     <div class="related">

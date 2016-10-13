@@ -2,13 +2,14 @@
 namespace App\Controller\Usr;
 
 use App\Controller\AppController;
+use App\Controller\SessionController;
 
 /**
  * Orders Controller
  *
  * @property \App\Model\Table\OrdersTable $Orders
  */
-class OrdersController extends AppController
+class OrdersController extends SessionController
 {
 
     /**

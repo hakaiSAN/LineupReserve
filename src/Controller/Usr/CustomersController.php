@@ -6,6 +6,7 @@ use App\Controller\AppController;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Security;
 use Cake\Network\Exception\NotFoundException;
+use Cake\Network\Exception\UnauthorizedException;
 
 /**
  * Customers Controller
@@ -71,7 +72,7 @@ class CustomersController extends SessionController
         $this->set('_serialize', ['customer']);
     }
 */
- public function lineup($secid = null)
+ public function lineup($id = null)
    //正しいIDのみユーザの追加と行列の追加
     {
 /* //TODO: 暗号化チャレンジ
@@ -82,7 +83,7 @@ class CustomersController extends SessionController
         $this->log($result, LOG_DEBUG);
         $this->log($event_id, LOG_DEBUG);
  */ 
-        $event_id = $secid;
+        $event_id = $id;
         $add_event = TableRegistry::get('Events')->get($event_id);//Event情報をpredict
       /*　ホントは存在しないExceptionのほうが望ましい
       if($add_event == null) {
@@ -92,18 +93,18 @@ class CustomersController extends SessionController
         $customer = $this->Customers->newEntity();
         $customer = $this->Customers->patchEntity($customer, $this->request->data);
         if(!($this->Session->check('Customer.id'))){
-            if($this->Customers->save($customer)){
+          if($this->Customers->save($customer)) {
+//            if($this->Customers->save($customer)){
                 $this->Session->write('Customer.id', $customer->id);
-//                debug($this->Session->read('Customer.id'));
-                $this->Flash->success(__('The customer has been saved.'));
-                return $this->redirect(['controller' => 'Customers', 'action'=> 'index']);
+                $this->Session->write('Customer.Event', $id);
+                return $this->redirect(['controller' => 'Customers','action'=> 'index']);
             } else {
                 $this->Flash->error(__('The customer could not be saved. Please, try again.'));
             }
-        $this->set(compact('customer'));
-        $this->set('_serialize', ['customer']);
+            $this->set(compact('customer'));
+            $this->set('_serialize', ['customer']);
         } else {
-            $this->autoRender = false;
+//            $this->autoRender = false;
             return $this->redirect(['controller' => 'Customers', 'action'=> 'index']);
         }
     }
@@ -151,4 +152,21 @@ class CustomersController extends SessionController
         }
         return $this->redirect(['action' => 'index']);
     }
+
+    //権限の確認
+    public function beforeFilter(\Cake\Event\Event $event) {
+        //セッション情報を確認
+        $action = $this->request->action; //どういった機能にいきたいかを検証
+        if(in_array($action, ['view', 'edit', 'delete'])) {
+            //要検討
+            $customer_id =  $this->Session->read('Customer.id');
+            $req_id = (int) $this->request->params['pass'][0];
+            if($customer_id != $req_id){ //reqとloginユーザが等しいか
+                throw new UnauthorizedException('許可されたページではありません');
+            }
+        }
+        parent::beforeFilter($event);
+    }
+
+
 }

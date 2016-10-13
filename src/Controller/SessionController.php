@@ -17,7 +17,7 @@ namespace App\Controller;
 use App\Controller\AppController;
 use Cake\Controller\Controller;
 use Cake\Event\Event;
-use Cake\Network\Exception\NotFoundException;
+use Cake\Network\Exception\UnauthorizedException;
 
 /**
  * Application Controller
@@ -40,10 +40,14 @@ class SessionController extends AppController
         parent::beforeFilter($event);
         //セッション情報を確認
         if(!($this->Session->check('Customer.id')) && 
-          !($this->Session->check('Customer.status'))){ //2回呼び出すのをふせぐ
-           $this->Session->write('Customer.status','1'); //呼び出す前に書き込み状態
-            $this->redirect(['controller' => 'Customers', 'action'=> 'addSession']);
+           ($this->request->action == 'lineup')){ //2回呼び出すのをふせぐ
+             return true;
         }
-//        throw new NotFoundException('このイベントは存在しません');
+        else if($this->Session->check('Customer.id')){
+            return true; //アクセス許可 
+        }
+        else {
+            throw new UnauthorizedException('許可されたページではありません');
+        }
     }
 }

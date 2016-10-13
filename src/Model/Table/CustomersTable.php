@@ -68,25 +68,21 @@ class CustomersTable extends Table
     }
 
     public function afterSave(\Cake\Event\Event $event, \Cake\Datasource\EntityInterface $entity, $options){
-        $procession = TableRegistry::get('Processions')->newEntity();
-        $req_data = $procession; //before validation 
-        //debug($entity);
+        $processions = TableRegistry::get('Processions');
+        $procession = $processions->newEntity();
+//        $req_data = $procession; //before validation 
         //url制御
         $url = Router::url();
         $params = Router::parse($url);
         //debug($params);
-        $id = $params['pass'][2];
+        $id = $params['pass'][1];
         $req_data['event_id'] = $id; //urlの中に仕込まれてる
         $req_data['customer_id'] = $entity['id'];
-        $procession = TableRegistry::get('Processions')->patchEntity($procession, $req_data);
-//        debug($procession);
-        if (TableRegistry::get('Processions')->save($procession)) {
-//            $this->Flash->success(__('The procession has been saved.'));
+        debug($req_data);
+        $procession = $processions->patchEntity($procession, $req_data);
+        if ($processions->save($procession)) {
         } else {
-//            $this->Flash->error(__('The procession could not be saved. Please, try again.'));
         }
-//        $this->set(compact('procession', 'customers', 'events'));
-//        $this->set('_serialize', ['procession']);
     }
 
 }

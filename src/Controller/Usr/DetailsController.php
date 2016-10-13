@@ -2,13 +2,14 @@
 namespace App\Controller\Usr;
 
 use App\Controller\AppController;
+use App\Controller\SessionController;
 
 /**
  * Details Controller
  *
  * @property \App\Model\Table\DetailsTable $Details
  */
-class DetailsController extends AppController
+class DetailsController extends SessionController
 {
 
     /**
