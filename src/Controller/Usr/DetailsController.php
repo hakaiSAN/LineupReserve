@@ -6,6 +6,8 @@ use App\Controller\SessionController;
 
 use Cake\ORM\TableRegistry;
 use Cake\Network\Exception\InternalErrorException;
+use Cake\Network\Exception\UnauthorizedException;
+
 
 /**
  * Details Controller
@@ -22,8 +24,10 @@ class DetailsController extends SessionController
      */
     public function index()
     {
+        $customer_id = $this->Session->read('Customer.id');
         $this->paginate = [
-            'contain' => ['Items', 'Orders']
+            'contain' => ['Items', 'Orders'],
+            'conditions' => [ 'customer_id' => $customer_id]
         ];
         $details = $this->paginate($this->Details);
 
@@ -83,7 +87,7 @@ class DetailsController extends SessionController
                 }
 //            if ($this->Details->save($detail)) {
                 if($this->set('details', $details)){
-                    $this->Session->write('Customer.order', 1); //二回発注しないようにする　編集のみ
+                    $this->Session->write('Customer.order', $order->id); //二回発注しないようにする　編集のみ
                     return $this->redirect(['action' => 'index']);
                 } else {
                     $this->Flash->error(__('The detail could not be saved. Please, try again.'));
@@ -147,4 +151,25 @@ class DetailsController extends SessionController
 
         return $this->redirect(['action' => 'index']);
     }
+
+    //権限の確認
+    public function beforeFilter(\Cake\Event\Event $event) {
+        //セッション情報を確認
+        $action = $this->request->action; //どういった機能にいきたいかを検証
+        if(in_array($action, ['view', 'edit', 'delete'])) {
+            //要検討
+            $customer_id =  $this->Session->read('Customer.id');
+            $req_id = (int) $this->request->params['pass'][0];
+            $preDetail = $this->Details->get($req_id, [//Details情報をpredict
+                'contain' => ['Orders']
+            ]);
+            if($customer_id != $preDetail->order->customer_id){ //reqとloginユーザが等しいか
+                throw new UnauthorizedException('許可されたページではありません');
+            }
+        }
+        parent::beforeFilter($event);
+    }
+
+
+
 }

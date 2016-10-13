@@ -4,6 +4,7 @@ namespace App\Controller\Usr;
 use App\Controller\AppController;
 use App\Controller\SessionController;
 
+use Cake\ORM\TableRegistry;
 /**
  * Orders Controller
  *
@@ -17,7 +18,8 @@ class OrdersController extends SessionController
      *
      * @return \Cake\Network\Response|null
      */
-    public function index()
+/*
+  public function index()
     {
         $this->paginate = [
             'contain' => ['Customers']
@@ -27,8 +29,14 @@ class OrdersController extends SessionController
         $this->set(compact('orders'));
         $this->set('_serialize', ['orders']);
     }
+ */
+  public function index()
+    {
+      $id = $this->Session->read("Customer.order");
+      return $this->redirect(['action' => 'view', $id]);
+    }
 
-    /**
+  /**
      * View method
      *
      * @param string|null $id Order id.
@@ -40,7 +48,14 @@ class OrdersController extends SessionController
         $order = $this->Orders->get($id, [
             'contain' => ['Customers', 'Details']
         ]);
-
+        //TODO: 名前表示
+        $details =  TableRegistry::get('Details')->find('all', [
+          'contain' => ['Items'],
+          'conditions' => ['order_id' => $order->id]
+        ]);
+//        $details = $details->toArray();
+        debug($details);
+        $this->set('details', $details);
         $this->set('order', $order);
         $this->set('_serialize', ['order']);
     }
@@ -114,4 +129,20 @@ class OrdersController extends SessionController
 
         return $this->redirect(['action' => 'index']);
     }
+
+    public function beforeFilter(\Cake\Event\Event $event) {
+        //セッション情報を確認
+        $action = $this->request->action; //どういった機能にいきたいかを検証
+        if(in_array($action, ['view', 'edit', 'delete'])) {
+            //要検討
+            $customer_id =  $this->Session->read('Customer.id');
+            $req_id = (int) $this->request->params['pass'][0];
+            $preOrder = $this->Orders->get($req_id); //Order情報をpredict
+            if($customer_id != $preOrder->customer_id){ //reqとloginユーザが等しいか
+                throw new UnauthorizedException('許可されたページではありません');
+            }
+        }
+        parent::beforeFilter($event);
+    }
+
 }

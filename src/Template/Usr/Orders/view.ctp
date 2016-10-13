@@ -40,26 +40,24 @@
         <?php if (!empty($order->details)): ?>
         <table cellpadding="0" cellspacing="0">
             <tr>
-                <th scope="col"><?= __('Id') ?></th>
+                <th scope="col"><?= __('Detail Id') ?></th>
                 <th scope="col"><?= __('Item Id') ?></th>
-                <th scope="col"><?= __('Order Id') ?></th>
                 <th scope="col"><?= __('Number') ?></th>
                 <th scope="col"><?= __('Created') ?></th>
                 <th scope="col"><?= __('Modified') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
-            <?php foreach ($order->details as $details): ?>
+            <?php foreach ($order->details as $detail): ?>
             <tr>
-                <td><?= h($details->id) ?></td>
-                <td><?= h($details->item_id) ?></td>
-                <td><?= h($details->order_id) ?></td>
-                <td><?= h($details->number) ?></td>
-                <td><?= h($details->created) ?></td>
-                <td><?= h($details->modified) ?></td>
+                <td><?= h($detail->id) ?></td>
+                <td><?= h($details->item[$detail->item_id]->name) ?></td>
+                <td><?= h($detail->number) ?></td>
+                <td><?= h($detail->created) ?></td>
+                <td><?= h($detail->modified) ?></td>
                 <td class="actions">
-                    <?= $this->Html->link(__('View'), ['controller' => 'Details', 'action' => 'view', $details->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['controller' => 'Details', 'action' => 'edit', $details->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['controller' => 'Details', 'action' => 'delete', $details->id], ['confirm' => __('Are you sure you want to delete # {0}?', $details->id)]) ?>
+                    <?= $this->Html->link(__('View'), ['controller' => 'Details', 'action' => 'view', $detail->id]) ?>
+                    <?= $this->Html->link(__('Edit'), ['controller' => 'Details', 'action' => 'edit', $detail->id]) ?>
+                    <?= $this->Form->postLink(__('Delete'), ['controller' => 'Details', 'action' => 'delete', $detail->id], ['confirm' => __('Are you sure you want to delete # {0}?', $detail->id)]) ?>
                 </td>
             </tr>
             <?php endforeach; ?>

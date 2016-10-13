@@ -154,13 +154,10 @@ class ItemsController extends AuthController
         if(in_array($action, ['view', 'edit', 'delete'])) {
             $login_store_id =$this->Auth->user('id'); //ログインしている店舗IDを取得
             $req_id = (int)$this->request->params['pass'][0];
-            $this->preItem = $this->Items->get($req_id, [ //Event情報をpredict
+            $preItem = $this->Items->get($req_id, [ //Event情報をpredict
             'contain' => ['Events']
             ]);
-            $tmp_event = TableRegistry::get('Events')->get($this->preItem->event->id, [//Event情報をpredict
-                'contain' => ['Stores']
-            ]);
-            $req_store_id  = $tmp_event->store->id;
+            $req_store_id  = $preItem->event->store_id;
             if($req_store_id == $login_store_id){ //reqとloginユーザが等しいか
               return true;
             }
