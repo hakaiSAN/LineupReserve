@@ -12,7 +12,7 @@
     <?= $this->Form->create(false) ?>
     <fieldset>
         <legend><?= __('Add Detail') ?></legend>
-        <?php for ($count=0 ; $count < 10; $count++):
+        <?php for ($count=0 ; $count <= count($items); $count++):
                 echo $this->Form->input('details.' . $count . '.item_id', ['options' => $items]);
 //                echo $this->Form->input('details.' . $count . '.order_id', ['options' => $orders]);
                 echo $this->Form->input('details.' . $count . '.number');

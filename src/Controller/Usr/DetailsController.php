@@ -63,7 +63,9 @@ class DetailsController extends SessionController
         $order = null;
 //        $detail = $this->Details->newEntity();
         if ($this->request->is('post') && !($this->Session->check('Customer.order'))) { //まだ発注していない
-            $details = $detailtable->newEntities($this->request->data('details'));
+        $details = $detailtable->newEntities($this->request->data('details'));
+            $details = $detailtable->PatchEntities($details, $this->request->data('details'));
+            $details = $this->_uniqueData($details); //同じ商品は2回発注できない
             foreach($details as $detail){
                 if(!$detail->errors()) {
                     //order発行
@@ -73,7 +75,7 @@ class DetailsController extends SessionController
                         $req_data['customer_id'] = $this->Session->read('Customer.id');
                         $req_data['paid'] = null;
                         $order = $orders->patchEntity($order, $req_data);
-                        debug($order);
+
                         if (!$orders->save($order)) {
                           throw new InternalErrorException;
                           //エラー発生 
@@ -84,7 +86,7 @@ class DetailsController extends SessionController
                         $this->Details->save($detail);
                         $this->Flash->success(__('The detail has been saved.'));
                     }
-                }
+            }
 //            if ($this->Details->save($detail)) {
                 if($this->set('details', $details)){
                     $this->Session->write('Customer.order', $order->id); //二回発注しないようにする　編集のみ
@@ -93,6 +95,10 @@ class DetailsController extends SessionController
                     $this->Flash->error(__('The detail could not be saved. Please, try again.'));
                 }
             }
+//        else { //編集のみ
+//            $id = $this->Session->read("Customer.order");
+//            return $this->redirect(['controller' => 'Orders', 'action' => 'view', $id]);
+//        }
         $items = $this->Details->Items->find('list', [
           'keyField' => 'id',
           'valueField' => 'name',
@@ -100,7 +106,7 @@ class DetailsController extends SessionController
         ]);
         //order番号は自動的に付与
 //        $orders = $this->Details->Orders->find('list', ['limit' => 200]);
-        $this->set(compact('detail', 'items', 'orders'));
+        $this->set(compact('details', 'items'));
         $this->set('_serialize', ['detail']);
     }
 
@@ -111,6 +117,7 @@ class DetailsController extends SessionController
      * @return \Cake\Network\Response|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
+///*
     public function edit($id = null)
     {
         $detail = $this->Details->get($id, [
@@ -120,7 +127,6 @@ class DetailsController extends SessionController
             $detail = $this->Details->patchEntity($detail, $this->request->data);
             if ($this->Details->save($detail)) {
                 $this->Flash->success(__('The detail has been saved.'));
-
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__('The detail could not be saved. Please, try again.'));
@@ -131,7 +137,51 @@ class DetailsController extends SessionController
         $this->set(compact('detail', 'items', 'orders'));
         $this->set('_serialize', ['detail']);
     }
-
+//*/
+/*
+        public function edit($id = null)
+    {
+        $order_id = $this->Session->read("Customer.order");
+        $detailtable = TableRegistry::get('Details');
+//        $details =  $detailtable->find('all');
+        $details =  $detailtable->find('all', [
+          'conditions' => ['order_id' => $order_id]
+        ]);//自分の注文情報が一括で出てくる
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $list = $details->toArray();
+            debug($this->request->data);
+            $details = $detailtable->patchEntities($list, $this->request->data('Detail'));
+            debug($list);
+            debug($details);
+//            $details = $this->_uniqueData($details); //同じ商品は2回発注できない
+            eval(breakpoint());
+            foreach($details as $detail){
+                debug($detail);
+                debug($detail->errors());
+                if(!$detail->errors()) {
+                        eval(breakpoint());
+                        $detail['order_id'] = $order_id;
+                        $this->Details->save($detail);
+                        $this->Flash->success(__('The detail has been saved.'));
+                    }
+            }
+                if($this->set('details', $details)){
+                return $this->redirect(['action' => 'index']);
+            } else {
+                $this->Flash->error(__('The detail could not be saved. Please, try again.'));
+            }
+        }
+        $items = $this->Details->Items->find('list', [
+          'keyField' => 'id',
+          'valueField' => 'name',
+          'conditions' => [ 
+            'event_id' => $this->Session->read('Customer.event')
+          ]
+        ]);
+        $this->set(compact('details', 'items'));
+        $this->set('_serialize', ['detail']);
+    }
+*/ 
     /**
      * Delete method
      *
@@ -156,7 +206,8 @@ class DetailsController extends SessionController
     public function beforeFilter(\Cake\Event\Event $event) {
         //セッション情報を確認
         $action = $this->request->action; //どういった機能にいきたいかを検証
-        if(in_array($action, ['view', 'edit', 'delete'])) {
+//        if(in_array($action, ['view', 'edit', 'delete'])) {
+        if(in_array($action, ['view', 'delete'])) {
             //要検討
             $customer_id =  $this->Session->read('Customer.id');
             $req_id = (int) $this->request->params['pass'][0];
@@ -168,6 +219,18 @@ class DetailsController extends SessionController
             }
         }
         parent::beforeFilter($event);
+    }
+
+    public function _uniqueData($details){
+            $tmp = []; //
+            $unique = []; //ダブりなし
+            foreach($details as $detail){
+              if(!in_array($detail->item_id, $tmp, true)) {
+                    $tmp[] = $detail['item_id'];
+                    $unique[] = $detail;
+              }
+            } 
+            return $unique; 
     }
 
 

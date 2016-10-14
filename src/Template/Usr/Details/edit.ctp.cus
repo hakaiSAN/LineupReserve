@@ -1,12 +1,6 @@
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Form->postLink(
-                __('Delete'),
-                ['action' => 'delete', $detail->id],
-                ['confirm' => __('Are you sure you want to delete # {0}?', $detail->id)]
-            )
-        ?></li>
         <li><?= $this->Html->link(__('List Details'), ['action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('List Items'), ['controller' => 'Items', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New Item'), ['controller' => 'Items', 'action' => 'add']) ?></li>
@@ -15,12 +9,17 @@
     </ul>
 </nav>
 <div class="details form large-9 medium-8 columns content">
-    <?= $this->Form->create($detail) ?>
+    <?= $this->Form->create($details) ?>
     <fieldset>
         <legend><?= __('Edit Detail') ?></legend>
-        <?php
-            echo $this->Form->input('item_id', ['options' => $items]);
-            echo $this->Form->input('number');
+        <?php 
+//            for ($count=0 ; $count <= count($items); $count++): 
+//                echo $this->Form->input('details.' . $count . '.item_id', ['options' => $items]);
+                echo $this->Form->input('Detail.item_id', ['options' => $items]);
+//                echo $this->Form->input('details.' . $count . '.order_id', ['options' => $orders]);
+                echo $this->Form->input('Detail.number');
+//                echo $this->Form->input('details.' . $count . '.number');
+//            endfor;
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

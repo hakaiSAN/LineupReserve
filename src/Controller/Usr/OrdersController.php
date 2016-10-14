@@ -5,6 +5,8 @@ use App\Controller\AppController;
 use App\Controller\SessionController;
 
 use Cake\ORM\TableRegistry;
+use Cake\Network\Exception\UnauthorizedException;
+
 /**
  * Orders Controller
  *
@@ -48,13 +50,11 @@ class OrdersController extends SessionController
         $order = $this->Orders->get($id, [
             'contain' => ['Customers', 'Details']
         ]);
-        //TODO: 名前表示
         $details =  TableRegistry::get('Details')->find('all', [
           'contain' => ['Items'],
           'conditions' => ['order_id' => $order->id]
         ]);
-//        $details = $details->toArray();
-        debug($details);
+        $details = $details->toArray();
         $this->set('details', $details);
         $this->set('order', $order);
         $this->set('_serialize', ['order']);

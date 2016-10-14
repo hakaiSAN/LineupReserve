@@ -90,6 +90,9 @@ class EventsController extends AuthController
         if ($this->request->is(['patch', 'post', 'put'])) {
             $this->request->data['store_id'] = $this->Auth->user('id'); //店舗を付随
             $event = $this->Events->patchEntity($event, $this->request->data);
+            debug($event);
+            eval(breakpoint());
+ 
             if ($this->Events->save($event)) {
                 $this->Flash->success(__('The event has been saved.'));
                 return $this->redirect(['action' => 'index']);

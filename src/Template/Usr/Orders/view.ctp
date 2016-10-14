@@ -41,7 +41,7 @@
         <table cellpadding="0" cellspacing="0">
             <tr>
                 <th scope="col"><?= __('Detail Id') ?></th>
-                <th scope="col"><?= __('Item Id') ?></th>
+                <th scope="col"><?= __('Item') ?></th>
                 <th scope="col"><?= __('Number') ?></th>
                 <th scope="col"><?= __('Created') ?></th>
                 <th scope="col"><?= __('Modified') ?></th>
@@ -50,7 +50,13 @@
             <?php foreach ($order->details as $detail): ?>
             <tr>
                 <td><?= h($detail->id) ?></td>
-                <td><?= h($details->item[$detail->item_id]->name) ?></td>
+                <td>
+                    <?php foreach($details as $tmp_detail) : ?> 
+                        <?php if($tmp_detail->item->id == $detail->item_id) :?>
+                            <?= h($tmp_detail->item->name) ?>
+                        <?php endif; ?>
+                    <?php endforeach; ?> 
+                </td>
                 <td><?= h($detail->number) ?></td>
                 <td><?= h($detail->created) ?></td>
                 <td><?= h($detail->modified) ?></td>
