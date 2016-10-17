@@ -62,7 +62,8 @@ class DetailsController extends SessionController
         $detailtable = TableRegistry::get('Details');
         $order = null;
 //        $detail = $this->Details->newEntity();
-        if ($this->request->is('post') && !($this->Session->check('Customer.order'))) { //まだ発注していない
+//        if ($this->request->is('post') && !($this->Session->check('Customer.order'))) { //まだ発注していない
+        if ($this->request->is('post')) { //まだ発注していない
         $details = $detailtable->newEntities($this->request->data('details'));
             $details = $detailtable->PatchEntities($details, $this->request->data('details'));
             $details = $this->_uniqueData($details); //同じ商品は2回発注できない
@@ -117,7 +118,7 @@ class DetailsController extends SessionController
      * @return \Cake\Network\Response|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
-///*
+/*
     public function edit($id = null)
     {
         $detail = $this->Details->get($id, [
@@ -137,9 +138,9 @@ class DetailsController extends SessionController
         $this->set(compact('detail', 'items', 'orders'));
         $this->set('_serialize', ['detail']);
     }
-//*/
-/*
-        public function edit($id = null)
+*/
+///*
+        public function edit()
     {
         $order_id = $this->Session->read("Customer.order");
         $detailtable = TableRegistry::get('Details');
@@ -147,19 +148,16 @@ class DetailsController extends SessionController
         $details =  $detailtable->find('all', [
           'conditions' => ['order_id' => $order_id]
         ]);//自分の注文情報が一括で出てくる
+        $details = $details->toArray();
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $list = $details->toArray();
-            debug($this->request->data);
-            $details = $detailtable->patchEntities($list, $this->request->data('Detail'));
-            debug($list);
-            debug($details);
-//            $details = $this->_uniqueData($details); //同じ商品は2回発注できない
-            eval(breakpoint());
+            $details = $detailtable->patchEntities($details, $this->request->data());
+          $this->log($details,LOG_DEBUG);
+            $details = $this->_uniqueData($details); //同じ商品は2回発注できない
             foreach($details as $detail){
                 debug($detail);
                 debug($detail->errors());
                 if(!$detail->errors()) {
-                        eval(breakpoint());
+//                        eval(breakpoint());
                         $detail['order_id'] = $order_id;
                         $this->Details->save($detail);
                         $this->Flash->success(__('The detail has been saved.'));
@@ -181,7 +179,7 @@ class DetailsController extends SessionController
         $this->set(compact('details', 'items'));
         $this->set('_serialize', ['detail']);
     }
-*/ 
+//*/ 
     /**
      * Delete method
      *

@@ -33,7 +33,7 @@
                 <td><?= h($detail->modified) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $detail->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $detail->id]) ?>
+                    <?= $this->Html->link(__('Edit'), ['action' => 'edit']) ?>
                     <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $detail->id], ['confirm' => __('Are you sure you want to delete # {0}?', $detail->id)]) ?>
                 </td>
             </tr>

@@ -26,7 +26,7 @@
             <tr>
                 <td><?= $this->Number->format($procession->id) ?></td>
                 <td><?= $procession->has('customer') ? $this->Html->link($procession->customer->id, ['controller' => 'Customers', 'action' => 'view', $procession->customer->id]) : '' ?></td>
-                <td><?= $procession->has('event') ? $this->Html->link($procession->event->id, ['controller' => 'Events', 'action' => 'view', $procession->event->id]) : '' ?></td>
+                <td><?= $procession->has('event') ? $this->Html->link($procession->event->id, ['controller' => 'Commons', 'action' => 'view', $procession->event->id]) : '' ?></td>
                 <td><?= h($procession->created) ?></td>
                 <td><?= h($procession->modified) ?></td>
                 <td class="actions">
