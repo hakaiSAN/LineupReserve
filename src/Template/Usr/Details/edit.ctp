@@ -16,8 +16,12 @@
             foreach ($details as $key => $detail): 
               echo $this->Form->hidden($key .'.id', ['value'=>$detail['id']]);
               echo $this->Form->input($key .'.item_id', ['options' => $items, 'value'=>$detail['item_id'], 'disabled'=>'disabled']);
-                echo $this->Form->input($key.'.number', ['value'=>$detail['number']]);
+              echo $this->Form->input($key.'.number', ['value'=>$detail['number']]);
             endforeach;
+              for($key = $key+1; $key < $count; $key++) : //追加分
+                echo $this->Form->input($key .'.item_id', ['options' => $items]);
+                echo $this->Form->input($key.'.number');
+            endfor;
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

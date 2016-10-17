@@ -118,28 +118,6 @@ class DetailsController extends SessionController
      * @return \Cake\Network\Response|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
-/*
-    public function edit($id = null)
-    {
-        $detail = $this->Details->get($id, [
-            'contain' => []
-        ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $detail = $this->Details->patchEntity($detail, $this->request->data);
-            if ($this->Details->save($detail)) {
-                $this->Flash->success(__('The detail has been saved.'));
-                return $this->redirect(['action' => 'index']);
-            } else {
-                $this->Flash->error(__('The detail could not be saved. Please, try again.'));
-            }
-        }
-        $items = $this->Details->Items->find('list', ['limit' => 200]);
-        $orders = $this->Details->Orders->find('list', ['limit' => 200]);
-        $this->set(compact('detail', 'items', 'orders'));
-        $this->set('_serialize', ['detail']);
-    }
-*/
-///*
         public function edit()
     {
         $order_id = $this->Session->read("Customer.order");
@@ -151,19 +129,18 @@ class DetailsController extends SessionController
         $details = $details->toArray();
         if ($this->request->is(['patch', 'post', 'put'])) {
             $details = $detailtable->patchEntities($details, $this->request->data());
-          $this->log($details,LOG_DEBUG);
             $details = $this->_uniqueData($details); //同じ商品は2回発注できない
             foreach($details as $detail){
-                debug($detail);
-                debug($detail->errors());
+//                debug($detail);
+//                debug($detail->errors());
                 if(!$detail->errors()) {
 //                        eval(breakpoint());
                         $detail['order_id'] = $order_id;
                         $this->Details->save($detail);
-                        $this->Flash->success(__('The detail has been saved.'));
                     }
             }
-                if($this->set('details', $details)){
+            if($this->set('details', $details)){
+                $this->Flash->success(__('The details have been saved.'));
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__('The detail could not be saved. Please, try again.'));
@@ -176,11 +153,17 @@ class DetailsController extends SessionController
             'event_id' => $this->Session->read('Customer.event')
           ]
         ]);
+        $count = $this->Details->Items->find('all', [ //アイテム数の登録監視
+          'conditions' => [ 
+            'event_id' => $this->Session->read('Customer.event')
+          ]
+        ])->count();
+        $this->set('count', $count);
         $this->set(compact('details', 'items'));
         $this->set('_serialize', ['detail']);
     }
-//*/ 
-    /**
+    
+        /**
      * Delete method
      *
      * @param string|null $id Detail id.
