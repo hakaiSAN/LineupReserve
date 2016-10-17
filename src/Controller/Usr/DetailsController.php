@@ -153,11 +153,7 @@ class DetailsController extends SessionController
             'event_id' => $this->Session->read('Customer.event')
           ]
         ]);
-        $count = $this->Details->Items->find('all', [ //アイテム数の登録監視
-          'conditions' => [ 
-            'event_id' => $this->Session->read('Customer.event')
-          ]
-        ])->count();
+        $count = count($items->toArray()); //アイテム数の登録監視
         $this->set('count', $count);
         $this->set(compact('details', 'items'));
         $this->set('_serialize', ['detail']);
