@@ -65,6 +65,7 @@ class OrdersController extends SessionController
      *
      * @return \Cake\Network\Response|void Redirects on successful add, renders view otherwise.
      */
+/*
     public function add()
     {
         $order = $this->Orders->newEntity();
@@ -82,6 +83,7 @@ class OrdersController extends SessionController
         $this->set(compact('order', 'customers'));
         $this->set('_serialize', ['order']);
     }
+*/
 
     /**
      * Edit method
@@ -90,6 +92,7 @@ class OrdersController extends SessionController
      * @return \Cake\Network\Response|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
+/*
     public function edit($id = null)
     {
         $order = $this->Orders->get($id, [
@@ -109,6 +112,7 @@ class OrdersController extends SessionController
         $this->set(compact('order', 'customers'));
         $this->set('_serialize', ['order']);
     }
+*/
 
     /**
      * Delete method
