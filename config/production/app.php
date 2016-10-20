@@ -102,6 +102,7 @@ return [
             'serialize' => true,
             'duration' => '+2 minutes',
             'url' => env('CACHE_CAKECORE_URL', null),
+            'mask' => 0666,
         ],
 
         /**
@@ -117,6 +118,7 @@ return [
             'serialize' => true,
             'duration' => '+2 minutes',
             'url' => env('CACHE_CAKEMODEL_URL', null),
+            'mask' => 0666,
         ],
     ],
 
@@ -231,11 +233,12 @@ return [
              * the following line and set the port accordingly
              */
             //'port' => 'non_standard_port_number',
-            'username' => 'hkawai',
-            'password' => '',
-            'database' => 'goodslisteasydb',
+            'username' => 'hirotokawai',
+            'password' => 'Kawaih!r0to',
+            'database' => 'lineupreserve',
             'encoding' => 'utf8',
             'timezone' => 'UTC',
+//            'timezone' => 'Asia/Tokyo',
             'flags' => [],
             'cacheMetadata' => true,
             'log' => false,
