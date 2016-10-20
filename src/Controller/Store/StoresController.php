@@ -19,10 +19,13 @@ class StoresController extends AuthController
      */
     public function index()
     {
+      /*
         $stores = $this->paginate($this->Stores);
 
         $this->set(compact('stores'));
         $this->set('_serialize', ['stores']);
+       */
+      $this->redirect(['action' => 'view']);
     }
 
     /**

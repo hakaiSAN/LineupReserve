@@ -1,20 +1,14 @@
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('List Stores'), ['action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('List Events'), ['controller' => 'Events', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Event'), ['controller' => 'Events', 'action' => 'add']) ?></li>
-    </ul>
 </nav>
 <div class="stores form large-9 medium-8 columns content">
     <?= $this->Form->create($store) ?>
     <fieldset>
-        <legend><?= __('Add Store') ?></legend>
+        <legend><?= __('店舗新規登録') ?></legend>
         <?php
-            echo $this->Form->input('password');
-            echo $this->Form->input('name');
+            echo $this->Form->input('name', ['label' => '店舗名']);
+            echo $this->Form->input('password', ['label' => 'パスワード']);
         ?>
     </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
+    <?= $this->Form->button(__('登録')) ?>
     <?= $this->Form->end() ?>
 </div>

@@ -14,6 +14,7 @@ use Cake\I18n\Time;
 class CommonsController extends AppController
 //誰でも閲覧できる
 {
+    public $components = ['Counting'];
 
     //外部向け機能制限
     public function indexEvents()
@@ -36,25 +37,13 @@ class CommonsController extends AppController
         $event = $this->Events->get($id, [
             'contain' => ['Stores', 'Processions', 'Items']
           ]);
-        $processions = TableRegistry::get('Processions');
-        $total = $processions->find('all',['conditions' => ['event_id' => $id]])->count();
-        $details = TableRegistry::get('Details');
-        $mapper = $details->find('list',[
-          'groupField' => 'item_id',
-          'valueField' => 'number'
-        ]);
-        $mapper = $mapper->toArray();
-//        debug($mapper);
-        $reserves = null;
-        foreach($mapper as $key => $value){
-            $reserves[$key] = array_sum($value);
-        } //合計値を計算
-//        debug($reserves);
+        $total = $this->Counting->processionCount($id);
+        $reserves = $this->Counting->reserveCount();
         $nowtime = Time::now()->i18nFormat();
         $this->set('nowtime', $nowtime);
         $this->set('reserves', $reserves);
-        $this->set('event', $event);
         $this->set('total', $total);
+        $this->set('event', $event);
         $this->set('_serialize', ['event']);
     }
 

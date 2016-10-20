@@ -8,7 +8,7 @@
     <?= $this->Form->create() ?>
     <fieldset>
         <?php
-            echo $this->Form->input('search');
+            echo $this->Form->input('search', ['label'=> '店舗名']);
         ?>
         <?= $this->Form->button(__('検索')) ?>
         <?= $this->Form->end() ?>

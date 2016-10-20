@@ -3,6 +3,12 @@
 </nav>
 <div class="stores view large-9 medium-8 columns content">
     <h3><?= h($store->name) ?></h3>
+    <table class="vertical-table">
+        <tr>
+            <th scope="row"><?= __('店舗名') ?></th>
+            <td><?= h($store->name) ?></td>
+        </tr>
+    </table>
     <div class="related">
         <h4><?= __('開催イベント') ?></h4>
         <?php if (!empty($store->events)): ?>

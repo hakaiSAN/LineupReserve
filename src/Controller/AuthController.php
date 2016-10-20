@@ -17,6 +17,8 @@ namespace App\Controller;
 use App\Controller\AppController;
 use Cake\Controller\Controller;
 
+use Cake\ORM\TableRegistry;
+
 /**
  * Application Controller
  *
@@ -27,6 +29,15 @@ use Cake\Controller\Controller;
  */
 class AuthController extends AppController
 {
+    //エレメントで使用するため各コントローラでstoreを保持する
+  public function initialize() {
+      parent::initialize();
+      if(!$this->Auth->user('id') == null){
+      $store = TableRegistry::get('Stores')->get($this->Auth->user('id'),[]);
+      $this->set('store', $store);
+      }
+    }
+
     // 認証機能追加  //全ページ不許可 Controllerごとにallowで制限
     public function beforeFilter(\Cake\Event\Event $event) {
         Controller::beforeFilter($event);

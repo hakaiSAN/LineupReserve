@@ -4,6 +4,8 @@ namespace App\Controller\Store;
 use App\Controller\AppController;
 use App\Controller\AuthController;
 
+use Cake\ORM\TableRegistry;
+
 /**
  * Events Controller
  *
@@ -12,6 +14,7 @@ use App\Controller\AuthController;
 class EventsController extends AuthController
 {
 
+    public $components = ['Counting'];
     /**
      * Index method
      *
@@ -47,6 +50,10 @@ class EventsController extends AuthController
         ]);
         $this->set('event', $event);
         $this->set('_serialize', ['event']);
+        $total = $this->Counting->processionCount($id);
+        $reserves = $this->Counting->reserveCount();
+        $this->set('reserves', $reserves);
+        $this->set('total', $total);
     }
 
     /**

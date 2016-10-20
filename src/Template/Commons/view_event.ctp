@@ -5,6 +5,10 @@
     <h3><?= h($event->name) ?></h3>
     <table class="vertical-table">
         <tr>
+            <th scope="row"><?= __('イベント名') ?></th>
+            <td><?= h($event->name) ?></td>
+        </tr>
+        <tr>
             <th scope="row"><?= __('開催日') ?></th>
             <td><?= h($event->date) ?></td>
         </tr>
@@ -30,15 +34,13 @@
             <tr>
                 <th scope="col"><?= __('商品名') ?></th>
                 <th scope="col"><?= __('価格') ?></th>
-                <th scope="col"><?= __('在庫数') ?></th>
-                <th scope="col"><?= __('予約数') ?></th>
+                <th scope="col"><?= __('在庫') ?></th>
             </tr>
             <?php foreach ($event->items as $item): ?>
             <tr>
                 <td><?= h($item->name) ?></td>
-                <td><?= h($item->price) ?></td>
-                <td><?= h($item->stock) ?></td>
-                <td><?= h($reserves[$item->id]) ?></td>
+                <td>&yen;<?= $this->Number->format($item->price) ?></td>
+                <td><?= $this->Number->format($reserves[$item->id]) ?> / <?= $this->Number->format($item->stock) ?></td>
             </tr>
             <?php endforeach; ?>
         </table>
