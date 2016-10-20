@@ -109,8 +109,14 @@ if (!Configure::read('debug')) {
  * Set server timezone to UTC. You can change it to another timezone of your
  * choice but using UTC makes time calculations / conversions easier.
  */
-//date_default_timezone_set('UTC');
-date_default_timezone_set('Asia/Tokyo');
+switch(env('CAKEPHP_ENV')){
+    case 'development':
+        date_default_timezone_set('UTC');
+        break; 
+    case 'production':
+        date_default_timezone_set('Asia/Tokyo');
+        break; 
+}
 
 /*
  * Configure the mbstring extension to use the correct encoding.
@@ -229,9 +235,22 @@ Type::build('datetime')->useLocaleParser();
  * Only try to load DebugKit in development mode
  * Debug Kit should not be installed on a production system
  */
-if (Configure::read('debug')) {
-    Plugin::load('DebugKit', ['bootstrap' => true]);
+switch(env('CAKEPHP_ENV')){
+    case 'development':
+        if (Configure::read('debug')) {
+            Plugin::load('DebugKit', ['bootstrap' => true]);
+        }
+        break; 
+    case 'production':
+        if (Configure::read('debug')) {
+            Plugin::load('DebugKit', ['bootstrap' => false]);
+        }
+        break; 
 }
+
+//if (Configure::read('debug')) {
+//    Plugin::load('DebugKit', ['bootstrap' => true]);
+//}
 
 Plugin::load('Migrations');
 

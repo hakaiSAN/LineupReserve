@@ -4,7 +4,7 @@ namespace App\Controller;
 use App\Controller\AppController;
 use Cake\ORM\TableRegistry;
 
-
+use Cake\I18n\Time;
 
 /**
  * Customers Controller
@@ -50,6 +50,8 @@ class CommonsController extends AppController
             $reserves[$key] = array_sum($value);
         } //合計値を計算
 //        debug($reserves);
+        $nowtime = Time::now()->i18nFormat();
+        $this->set('nowtime', $nowtime);
         $this->set('reserves', $reserves);
         $this->set('event', $event);
         $this->set('total', $total);

@@ -291,18 +291,12 @@ return [
      * Configures logging options
      */
     'Log' => [
-        'debug' => [
-            'className' => 'Cake\Log\Engine\FileLog',
-            'path' => LOGS,
-            'file' => 'debug',
-            'levels' => ['notice', 'info', 'debug'],
-            'url' => env('LOG_DEBUG_URL', null),
-        ],
+      'debug' => false,
         'error' => [
             'className' => 'Cake\Log\Engine\FileLog',
             'path' => LOGS,
             'file' => 'error',
-            'levels' => ['warning', 'error', 'critical', 'alert', 'emergency'],
+            'levels' => ['error', 'critical', 'alert', 'emergency'],
             'url' => env('LOG_ERROR_URL', null),
         ],
     ],
