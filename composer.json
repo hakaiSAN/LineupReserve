@@ -1,7 +1,5 @@
 {
     "require": {
-<<<<<<< HEAD
-        "php": ">=5.5.9",
         "cakephp/cakephp": "3.3.*",
         "mobiledetect/mobiledetectlib": "2.*",
         "cakephp/migrations": "@stable",
@@ -39,9 +37,4 @@
     },
     "minimum-stability": "beta",
     "prefer-stable": true
-=======
-        "cakephp/bake": "~1.1.0",
-        "cakephp/cakephp": "~3.1.0"
-    }
->>>>>>> b5c829e... WIP on login: 71ec013 tmp
 }
