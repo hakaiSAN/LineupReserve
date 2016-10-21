@@ -1,42 +1,29 @@
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('New Item'), ['action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Events'), ['controller' => 'Events', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Event'), ['controller' => 'Events', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Details'), ['controller' => 'Details', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Detail'), ['controller' => 'Details', 'action' => 'add']) ?></li>
-    </ul>
+    <?php echo $this->element('sidebar/stores'); ?>
 </nav>
 <div class="items index large-9 medium-8 columns content">
-    <h3><?= __('Items') ?></h3>
+    <h3><?= __('販売商品一覧') ?></h3>
     <table cellpadding="0" cellspacing="0">
         <thead>
             <tr>
-                <th scope="col"><?= $this->Paginator->sort('id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('name') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('price') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('stock') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('event_id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('created') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('modified') ?></th>
-                <th scope="col" class="actions"><?= __('Actions') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('名前') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('イベント名') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('価格') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('予約/在庫') ?></th>
+                <th scope="col" class="actions"><?= __('詳細') ?></th>
             </tr>
         </thead>
         <tbody>
             <?php foreach ($items as $item): ?>
             <tr>
-                <td><?= $this->Number->format($item->id) ?></td>
                 <td><?= h($item->name) ?></td>
-                <td><?= $this->Number->format($item->price) ?></td>
-                <td><?= $this->Number->format($item->stock) ?></td>
-                <td><?= $item->has('event') ? $this->Html->link($item->event->id, ['controller' => 'Events', 'action' => 'view', $item->event->id]) : '' ?></td>
-                <td><?= h($item->created) ?></td>
-                <td><?= h($item->modified) ?></td>
+                <td><?= $item->has('event') ? $this->Html->link($item->event->name, ['controller' => 'Events', 'action' => 'view', $item->event->id]) : '' ?></td>
+                <td>&yen;<?= $this->Number->format($item->price) ?></td>
+                <td><?= $this->Number->format((array_key_exists($item->id, $reserves)) ? $reserves[$item->id] : 0) ?> / <?= $this->Number->format($item->stock) ?></td>
                 <td class="actions">
-                    <?= $this->Html->link(__('View'), ['action' => 'view', $item->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $item->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $item->id], ['confirm' => __('Are you sure you want to delete # {0}?', $item->id)]) ?>
+                    <?= $this->Html->link(__('閲覧'), ['action' => 'view', $item->id]) ?>
+                    <?= $this->Html->link(__('編集'), ['action' => 'edit', $item->id]) ?>
+                    <?= $this->Form->postLink(__('削除'), ['action' => 'delete', $item->id], ['confirm' => __('Are you sure you want to delete # {0}?', $item->id)]) ?>
                 </td>
             </tr>
             <?php endforeach; ?>

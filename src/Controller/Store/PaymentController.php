@@ -14,15 +14,19 @@ use Cake\I18n\Time;
  */
 class PaymentController extends AuthController
 {
+    public $components = ['Counting'];
     public function check()
     {
         $this->Orders = TableRegistry::get('Orders'); 
         if ($this->request->is(['post'])) {
             $id = $this->request->data['id'];
-            if (!$id == null) {
+            $check = $this->Orders->find('all', [
+                'conditions' => ['id' => $id]
+            ])->first();
+            if (!$id == null && !$check == null) { //注文が存在
                 return $this->redirect(['action' => 'paid', '0' => $id]);
             } else {
-                $this->Flash->error(__('The order not exist, try again.'));
+                $this->Flash->error(__('この注文は存在しません'));
             }
         }
     }
@@ -34,12 +38,14 @@ class PaymentController extends AuthController
         $order = $this->Orders->get($id, [
             'contain' => ['Customers', 'Details']
         ]);
-        $details =  TableRegistry::get('Details')->find('all', [
-          'contain' => ['Items'],
-          'conditions' => ['order_id' => $order->id]
-        ]);
+        $items =  TableRegistry::get('Items')->find('all', [
+          'fields' => ['name' , 'price'],
+          'group' => ['id']
+        ])->toArray();
+        $states = $this->Counting->stateOrders();
         
         if ($this->request->is(['post'])) {
+          if($order->paid == null){
             $now = Time::now();
             $this->request->data['paid'] = $now;
             $order = $this->Orders->patchEntity($order, $this->request->data);
@@ -49,9 +55,13 @@ class PaymentController extends AuthController
             } else {
                 $this->Flash->error(__('The order could not be saved. Please, try again.'));
             }
+          } else {
+                $this->Flash->error(__('すでに取引が完了しています'));
+          
+          }
         }
-        $details = $details->toArray();
-        $this->set('details', $details);
+        $this->set('states', $states);
+        $this->set('items', $items);
         $this->set('order', $order);
         $this->set('_serialize', ['order']);
     }

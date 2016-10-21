@@ -39,6 +39,8 @@
             <td><?= h($total) ?>人</td>
         </tr>
     </table>
+    <?= $this->Html->Link(__('編集'), ['action' => 'edit', $event->id], ['class' => 'button']) ?>
+    <?= $this->Form->postLink(__('削除'), ['action' => 'delete', $event->id], ['class' => 'button', 'confirm' => __('Are you sure you want to delete # {0}?', $event->id)]) ?>
     <div class="related">
         <h4><?= __('販売商品') ?></h4>
         <?php if (!empty($event->items)): ?>
@@ -53,11 +55,11 @@
             <tr>
                 <td><?= h($items->name) ?></td>
                 <td>&yen;<?= $this->Number->format($items->price) ?></td>
-                <td><?= $this->Number->format($reserves[$items->id]) ?> / <?= $this->Number->format($items->stock) ?></td>
+                <td><?= $this->Number->format((array_key_exists($items->id, $reserves)) ? $reserves[$items->id] : 0) ?> / <?= $this->Number->format($items->stock) ?></td>
                 <td class="itemactions">
-                    <?= $this->Html->link(__('View'), ['controller' => 'Items', 'action' => 'view', $items->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['controller' => 'Items', 'action' => 'edit', $items->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['controller' => 'Items', 'action' => 'delete', $items->id], ['confirm' => __('Are you sure you want to delete # {0}?', $items->id)]) ?>
+                    <?= $this->Html->link(__('閲覧'), ['controller' => 'Items', 'action' => 'view', $items->id]) ?>
+                    <?= $this->Html->link(__('編集'), ['controller' => 'Items', 'action' => 'edit', $items->id]) ?>
+                    <?= $this->Form->postLink(__('削除'), ['controller' => 'Items', 'action' => 'delete', $items->id], ['confirm' => __('Are you sure you want to delete # {0}?', $items->id)]) ?>
                 </td>
             </tr>
             <?php endforeach; ?>

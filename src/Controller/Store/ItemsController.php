@@ -11,6 +11,7 @@ use Cake\ORM\TableRegistry;
  */
 class ItemsController extends AuthController
 {
+    public $components = ['Counting'];
 
   public function initialize(){
     parent::initialize();
@@ -30,6 +31,8 @@ class ItemsController extends AuthController
 
         $this->set(compact('items'));
         $this->set('_serialize', ['items']);
+        $reserves = $this->Counting->reserveCount();
+        $this->set('reserves', $reserves);
     }
 
     /**
@@ -44,21 +47,17 @@ class ItemsController extends AuthController
         $item = $this->Items->get($id, [
             'contain' => ['Events', 'Details']
         ]);
-        $details = TableRegistry::get('Details');
-        $mapper = $details->find('list',[
-          'groupField' => 'item_id',
-          'valueField' => 'number'
-        ]);
-        $mapper = $mapper->toArray();
-//        debug($mapper);
-        $reserves = null;
-        foreach($mapper as $key => $value){
-            $reserves[$key] = array_sum($value);
-        } //合計値を計算
- //       debug($reserves);
-        $this->set('reserves', $reserves);
+        $orders['customer']= TableRegistry::get('Orders')->find('list',[
+            'keyField' => 'id',
+            'valueField' => 'customer_id'
+          ])->toArray(); //顧客IDが詰まってる
+        $orders['state'] = $this->Counting->stateOrders();
+        
+        $this->set('orders', $orders);
         $this->set('item', $item);
         $this->set('_serialize', ['item']);
+        $reserves = $this->Counting->reserveCount();
+        $this->set('reserves', $reserves);
     }
 
     /**
@@ -106,12 +105,9 @@ class ItemsController extends AuthController
      */
     public function edit($id = null)
     {
-      /*
         $item = $this->Items->get($id, [
             'contain' => []
         ]);
-       */
-      $item = $this->preItem;
         if ($this->request->is(['patch', 'post', 'put'])) {
             $item = $this->Items->patchEntity($item, $this->request->data);
             if ($this->Items->save($item)) {
@@ -122,7 +118,11 @@ class ItemsController extends AuthController
                 $this->Flash->error(__('The item could not be saved. Please, try again.'));
             }
         }
-        $events = $this->Items->Events->find('list', ['limit' => 200]);
+        $events = $this->Items->Events->find('list',  [
+          'keyField' => 'id',
+          'valueField' => 'name',
+          'conditions' => [ 'store_id' => $this->Auth->user('id')]
+        ]);
         $this->set(compact('item', 'events'));
         $this->set('_serialize', ['item']);
     }
@@ -137,8 +137,7 @@ class ItemsController extends AuthController
     public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
-        //$item = $this->Items->get($id);
-        $item = $this->preItem;
+        $item = $this->Items->get($id);
         if ($this->Items->delete($item)) {
             $this->Flash->success(__('The item has been deleted.'));
         } else {

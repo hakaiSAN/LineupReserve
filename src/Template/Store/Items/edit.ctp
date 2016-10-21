@@ -1,30 +1,18 @@
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Form->postLink(
-                __('Delete'),
-                ['action' => 'delete', $item->id],
-                ['confirm' => __('Are you sure you want to delete # {0}?', $item->id)]
-            )
-        ?></li>
-        <li><?= $this->Html->link(__('List Items'), ['action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('List Events'), ['controller' => 'Events', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Event'), ['controller' => 'Events', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Details'), ['controller' => 'Details', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Detail'), ['controller' => 'Details', 'action' => 'add']) ?></li>
-    </ul>
+    <?php echo $this->element('sidebar/stores'); ?>
 </nav>
 <div class="items form large-9 medium-8 columns content">
     <?= $this->Form->create($item) ?>
     <fieldset>
-        <legend><?= __('Edit Item') ?></legend>
+        <legend><?= __('商品編集') ?></legend>
         <?php
-            echo $this->Form->input('name');
-            echo $this->Form->input('price');
-            echo $this->Form->input('stock');
+            echo $this->Form->input('name', ['label' => '商品名']);
+            echo $this->Form->input('price',['label' => '価格']);
+            echo $this->Form->input('stock', ['label' => '在庫数']);
             echo $this->Form->input('event_id', ['options' => $events]);
         ?>
     </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
+    <?= $this->Form->button(__('更新')) ?>
     <?= $this->Form->end() ?>
+    <?= $this->Form->postLink(__('削除'), ['action' => 'delete', $item->id], ['class' => 'button','confirm' => __('Are you sure you want to delete # {0}?', $item->id)]) ?>
 </div>

@@ -4,7 +4,7 @@
 <div class="events form large-9 medium-8 columns content">
     <?= $this->Form->create($event) ?>
     <fieldset>
-        <legend><?= __('Add Event') ?></legend>
+        <legend><?= __('イベント追加') ?></legend>
         <?php
             echo $this->Form->input('name', ['label' => 'イベント名']);
             echo $this->Form->input('date', ['label' => '開催日']);
@@ -12,6 +12,6 @@
             echo $this->Form->hidden('store_id');
         ?>
     </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
+    <?= $this->Form->button(__('登録')) ?>
     <?= $this->Form->end() ?>
 </div>
