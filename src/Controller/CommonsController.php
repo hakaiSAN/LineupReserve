@@ -39,6 +39,7 @@ class CommonsController extends AppController
           ]);
         $total = $this->Counting->processionCount($id);
         $reserves = $this->Counting->reserveCount();
+        debug($reserves);
         $nowtime = Time::now()->i18nFormat();
         $this->set('nowtime', $nowtime);
         $this->set('reserves', $reserves);

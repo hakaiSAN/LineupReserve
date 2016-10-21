@@ -1,92 +1,52 @@
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('Edit Customer'), ['action' => 'edit', $customer->id]) ?> </li>
-        <li><?= $this->Form->postLink(__('Delete Customer'), ['action' => 'delete', $customer->id], ['confirm' => __('Are you sure you want to delete # {0}?', $customer->id)]) ?> </li>
-        <li><?= $this->Html->link(__('List Customers'), ['action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Customer'), ['action' => 'add']) ?> </li>
-        <li><?= $this->Html->link(__('List Orders'), ['controller' => 'Orders', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Order'), ['controller' => 'Orders', 'action' => 'add']) ?> </li>
-        <li><?= $this->Html->link(__('List Processions'), ['controller' => 'Processions', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Procession'), ['controller' => 'Processions', 'action' => 'add']) ?> </li>
-    </ul>
+    <?php echo $this->element('sidebar/usr'); ?>
 </nav>
 <div class="customers view large-9 medium-8 columns content">
-    <h3><?= h($customer->id) ?></h3>
+    <h3>ユーザ情報</h3>
     <table class="vertical-table">
         <tr>
-            <th scope="row"><?= __('Id') ?></th>
+            <th scope="row"><?= __('ID') ?></th>
             <td><?= $this->Number->format($customer->id) ?></td>
         </tr>
         <tr>
-            <th scope="row"><?= __('Created') ?></th>
+            <th scope="row"><?= __('登録時刻') ?></th>
             <td><?= h($customer->created) ?></td>
         </tr>
         <tr>
-            <th scope="row"><?= __('Modified') ?></th>
-            <td><?= h($customer->modified) ?></td>
+            <th scope="row"><?= __('イベント名') ?></th>
+            <td><?= $this->Html->link($event->name, ['prefix' => false, 'controller' => 'Commons', 'action' => 'viewEvent', $event->id]) ?></td>
         </tr>
         <tr>
-            <th scope="row"><?= __('Position') ?></th>
+            <th scope="row"><?= __('行列情報：自分/全体') ?></th>
             <td><?= h($position) . '/' . h($total) ?></td>
         </tr>
     </table>
     <div class="related">
-        <h4><?= __('Related Orders') ?></h4>
-        <?php if (!empty($customer->orders)): ?>
+        <h4><?= __('注文状況') ?></h4>
+        <?php if ($order == null): ?>
+            <br>
+        <h4><?= __('まだ注文していません') ?></h4>
+        <?php else : ?>
+        <h4><?= h($states[$order->id]) ?></h4>
+        <?php if (!empty($order->details)): ?>
         <table cellpadding="0" cellspacing="0">
             <tr>
-                <th scope="col"><?= __('Id') ?></th>
-                <th scope="col"><?= __('Customer Id') ?></th>
-                <th scope="col"><?= __('Paid') ?></th>
-                <th scope="col"><?= __('Created') ?></th>
-                <th scope="col"><?= __('Modified') ?></th>
-                <th scope="col" class="actions"><?= __('Actions') ?></th>
+                <th scope="col"><?= __('商品名') ?></th>
+                <th scope="col"><?= __('価格') ?></th>
+                <th scope="col"><?= __('注文数') ?></th>
             </tr>
-            <?php foreach ($customer->orders as $orders): ?>
+            <?php $sum = 0 ?>
+            <?php foreach ($order->details as $detail): ?>
             <tr>
-                <td><?= h($orders->id) ?></td>
-                <td><?= h($orders->customer_id) ?></td>
-                <td><?= h($orders->paid) ?></td>
-                <td><?= h($orders->created) ?></td>
-                <td><?= h($orders->modified) ?></td>
-                <td class="actions">
-                    <?= $this->Html->link(__('View'), ['controller' => 'Orders', 'action' => 'view', $orders->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['controller' => 'Orders', 'action' => 'edit', $orders->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['controller' => 'Orders', 'action' => 'delete', $orders->id], ['confirm' => __('Are you sure you want to delete # {0}?', $orders->id)]) ?>
-                </td>
+                <td> <?= h($items[$detail->item_id]['name']) ?> </td>
+                <td>&yen;<?= $this->Number->Format($items[$detail->item_id]['price']) ?> </td>
+                <td><?= $this->Number->Format($detail->number) ?></td>
+                <?php $sum = $sum + $items[$detail->item_id]['price'] * $detail->number ?>
             </tr>
             <?php endforeach; ?>
         </table>
         <?php endif; ?>
-    </div>
-    <div class="related">
-        <h4><?= __('Related Processions') ?></h4>
-        <?php if (!empty($customer->processions)): ?>
-        <table cellpadding="0" cellspacing="0">
-            <tr>
-                <th scope="col"><?= __('Id') ?></th>
-                <th scope="col"><?= __('Customer Id') ?></th>
-                <th scope="col"><?= __('Event Id') ?></th>
-                <th scope="col"><?= __('Created') ?></th>
-                <th scope="col"><?= __('Modified') ?></th>
-                <th scope="col" class="actions"><?= __('Actions') ?></th>
-            </tr>
-            <?php foreach ($customer->processions as $processions): ?>
-            <tr>
-                <td><?= h($processions->id) ?></td>
-                <td><?= h($processions->customer_id) ?></td>
-                <td><?= h($processions->event_id) ?></td>
-                <td><?= h($processions->created) ?></td>
-                <td><?= h($processions->modified) ?></td>
-                <td class="actions">
-                    <?= $this->Html->link(__('View'), ['controller' => 'Processions', 'action' => 'view', $processions->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['controller' => 'Processions', 'action' => 'edit', $processions->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['controller' => 'Processions', 'action' => 'delete', $processions->id], ['confirm' => __('Are you sure you want to delete # {0}?', $processions->id)]) ?>
-                </td>
-            </tr>
-            <?php endforeach; ?>
-        </table>
+        <h4><?= __('合計金額') ?> &yen;<?= $this->Number->Format($sum) ?></h4>
         <?php endif; ?>
     </div>
 </div>

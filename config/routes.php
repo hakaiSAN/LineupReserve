@@ -50,7 +50,7 @@ Router::prefix('store', function ($routes){
 });
 
 Router::prefix('usr', function ($routes){
-    $routes->connect ('/', ['controller' => 'Customers', 'action' => 'index']);
+    $routes->connect ('/', ['controller' => 'Orders', 'action' => 'index']);
     $routes->connect ('/lineup/:id', ['controller' => 'Customers', 'action' => 'lineup'],  ['id' => '\d+', 'pass' => ['id']]);
     $routes->connect ('/:controller', ['action' => 'index']);
     $routes->fallbacks(DashedRoute::class);

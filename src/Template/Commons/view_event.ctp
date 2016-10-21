@@ -40,7 +40,7 @@
             <tr>
                 <td><?= h($item->name) ?></td>
                 <td>&yen;<?= $this->Number->format($item->price) ?></td>
-                <td><?= $this->Number->format((array_key_exists($item->id, $reserves)? $reserves[$items->id] : 0) ?> / <?= $this->Number->format($item->stock) ?></td>
+                <td><?= $this->Number->format((array_key_exists($item->id, $reserves)) ? $reserves[$item->id] : 0) ?> / <?= $this->Number->format($item->stock) ?></td>
             </tr>
             <?php endforeach; ?>
         </table>

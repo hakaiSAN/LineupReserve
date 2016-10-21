@@ -11,7 +11,7 @@ use Cake\ORM\TableRegistry;
  */
 class ItemsController extends AuthController
 {
-    public $components = ['Counting'];
+    public $components = ['Counting','Associated'];
 
   public function initialize(){
     parent::initialize();
@@ -51,7 +51,7 @@ class ItemsController extends AuthController
             'keyField' => 'id',
             'valueField' => 'customer_id'
           ])->toArray(); //顧客IDが詰まってる
-        $orders['state'] = $this->Counting->stateOrders();
+        $orders['state'] = $this->Associated->stateOrders();
         
         $this->set('orders', $orders);
         $this->set('item', $item);

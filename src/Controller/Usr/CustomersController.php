@@ -18,20 +18,22 @@ class CustomersController extends SessionController
 //class CustomersController extends AppController
 //for debug
 {
+  public $components = ['Associated'];
 
     /**
      * Index method
      *
      * @return \Cake\Network\Response|null
      */
-    public function index()
+/* 見えない
+  public function index()
     {
         $customers = $this->paginate($this->Customers);
 
         $this->set(compact('customers'));
         $this->set('_serialize', ['customers']);
     }
-
+*/ 
     /**
      * View method
      *
@@ -39,13 +41,30 @@ class CustomersController extends SessionController
      * @return \Cake\Network\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id = null)
+//    public function view($id = null)
+    public function view()
     {
+        $id =  $this->Session->read('Customer.id');
         $customer = $this->Customers->get($id, [
             'contain' => ['Orders', 'Processions']
         ]);
+        $order_id =  $this->Session->check('Customer.order') ? $this->Session->read('Customer.order') : null ;
+        $order = null;
+        $items = null;
+        if(!$order_id == null){ //orderが存在
+            $order = TableRegistry::get('Orders')->find('all', [
+                'contain' => ['Details'],
+                'conditions' => ['Orders.id' => $order_id]
+            ])->first(); //オーダ確認 ないとnull
+            if (!$order == null && $order->customer_id == $id){ //正しい注文
+              $items = $this->Associated->ItemsNamePrice();
+            }
+        } 
+        $states = $this->Associated->stateOrders();
+        
         $processions = TableRegistry::get('Processions');
         $event_id = $this->Session->read('Customer.event');
+        $event = TableRegistry::get('Events')->get($event_id); //確実に存在
         $total = $processions->find('all',['conditions' => ['event_id' => $event_id]])->count(); //全体で何人並んでいるか
         $position = $processions->find('all', [
           'conditions' => [
@@ -55,9 +74,13 @@ class CustomersController extends SessionController
         ])->count() + 1; //自分は何番目か
         $this->set('position', $position);
         $this->set('total', $total);
+        $this->set('event', $event);
         $this->set('customer', $customer);
         $this->set('_serialize', ['customer']);
-    }
+        $this->set('states', $states);
+        $this->set('items', $items);
+        $this->set('order', $order);
+}
 
     /**
      * Add method
@@ -107,7 +130,7 @@ class CustomersController extends SessionController
 //            if($this->Customers->save($customer)){
                 $this->Session->write('Customer.id', $customer->id);
                 $this->Session->write('Customer.event', $id);
-                return $this->redirect(['controller' => 'Customers','action'=> 'index']);
+                return $this->redirect(['controller' => 'Details','action'=> 'view']);
             } else {
                 $this->Flash->error(__('The customer could not be saved. Please, try again.'));
             }
@@ -125,6 +148,7 @@ class CustomersController extends SessionController
      * @return \Cake\Network\Response|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
+/* 見えない
     public function edit($id = null)
     {
         $customer = $this->Customers->get($id, [
@@ -143,7 +167,7 @@ class CustomersController extends SessionController
         $this->set(compact('customer'));
         $this->set('_serialize', ['customer']);
     }
-
+ */
     /**
      * Delete method
      *
@@ -167,7 +191,8 @@ class CustomersController extends SessionController
     public function beforeFilter(\Cake\Event\Event $event) {
         //セッション情報を確認
         $action = $this->request->action; //どういった機能にいきたいかを検証
-        if(in_array($action, ['view', 'edit', 'delete'])) {
+//        if(in_array($action, ['view', 'edit', 'delete'])) {
+        if(in_array($action, ['delete'])) {
             //要検討
             $customer_id =  $this->Session->read('Customer.id');
             $req_id = (int) $this->request->params['pass'][0];

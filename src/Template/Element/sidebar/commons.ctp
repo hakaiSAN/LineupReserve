@@ -7,6 +7,6 @@
         <li><?= $this->Html->link(__('イベント検索'), ['controller' => 'Commons', 'action' => 'searchEvents']) ?></li>
 <br>
         <li><?= $this->Html->link(__('店舗者ログイン'), ['controller' => 'Stores', 'action' => 'login', 'prefix' => 'store']) ?></li>
-        <li><?= $this->Html->link(__('イベント参加者ログイン'), ['controller' => 'Orders', 'action'=>'index', 'prefix' => 'usr']) ?></li>
+        <li><?= $this->Html->link(__('イベント参加者ページへ'), ['controller' => 'Customers', 'action'=>'view', 'prefix' => 'usr']) ?></li>
     </ul>
 

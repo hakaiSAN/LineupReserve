@@ -14,7 +14,7 @@ use Cake\I18n\Time;
  */
 class PaymentController extends AuthController
 {
-    public $components = ['Counting'];
+    public $components = ['Associated'];
     public function check()
     {
         $this->Orders = TableRegistry::get('Orders'); 
@@ -38,11 +38,8 @@ class PaymentController extends AuthController
         $order = $this->Orders->get($id, [
             'contain' => ['Customers', 'Details']
         ]);
-        $items =  TableRegistry::get('Items')->find('all', [
-          'fields' => ['name' , 'price'],
-          'group' => ['id']
-        ])->toArray();
-        $states = $this->Counting->stateOrders();
+        $items = $this->Associated->ItemsNamePrice();
+        $states = $this->Associated->stateOrders();
         
         if ($this->request->is(['post'])) {
           if($order->paid == null){
