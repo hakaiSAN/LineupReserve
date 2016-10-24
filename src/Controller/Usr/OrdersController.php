@@ -12,6 +12,7 @@ use Cake\Network\Exception\UnauthorizedException;
  *
  * @property \App\Model\Table\OrdersTable $Orders
  */
+//deleteのみ　viewはCustomersに、addはDetailsに吸収
 class OrdersController extends SessionController
 {
 
@@ -32,11 +33,13 @@ class OrdersController extends SessionController
         $this->set('_serialize', ['orders']);
     }
  */
+  /*
   public function index()
     {
       $id = $this->Session->read("Customer.order");
       return $this->redirect(['action' => 'view', $id]);
     }
+   */
 
   /**
      * View method
@@ -45,7 +48,8 @@ class OrdersController extends SessionController
      * @return \Cake\Network\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id = null)
+/*
+  public function view($id = null)
     {
         $order = $this->Orders->get($id, [
             'contain' => ['Customers', 'Details']
@@ -59,7 +63,7 @@ class OrdersController extends SessionController
         $this->set('order', $order);
         $this->set('_serialize', ['order']);
     }
-
+ */
     /**
      * Add method
      *

@@ -37,9 +37,9 @@ class CommonsController extends AppController
         $event = $this->Events->get($id, [
             'contain' => ['Stores', 'Processions', 'Items']
           ]);
-        $total = $this->Counting->processionCount($id);
-        $reserves = $this->Counting->reserveCount();
-        debug($reserves);
+        $total = $this->Counting->processionAllCount($id);
+        $reserves = $this->Counting->reserveAllCount();
+//        debug($reserves);
         $nowtime = Time::now()->i18nFormat();
         $this->set('nowtime', $nowtime);
         $this->set('reserves', $reserves);

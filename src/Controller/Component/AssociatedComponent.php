@@ -8,14 +8,15 @@ use Cake\ORM\TableRegistry;
 class AssociatedComponent extends Component {
 
      //Itemのidをkeyとしてnameとpriceをバリューにとるような連想配列を返す
-     public function ItemsNamePrice(){
+     public function ItemsNamePriceStock(){
         $tmps =  TableRegistry::get('Items')->find('all', [
-        'fields' => ['id','name' , 'price'],
+        'fields' => ['id','name' ,'price', 'stock'],
         ])->toArray();
         foreach($tmps as $tmp){
             $items[$tmp->id] = [
               'name' =>$tmp->name,
-              'price'=>$tmp->price
+              'price'=>$tmp->price,
+              'stock'=>$tmp->stock
             ];
         }
         return $items; 

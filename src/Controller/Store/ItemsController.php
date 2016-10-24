@@ -13,10 +13,6 @@ class ItemsController extends AuthController
 {
     public $components = ['Counting','Associated'];
 
-  public function initialize(){
-    parent::initialize();
-    $this->itemable = TableRegistry::get('Items'); 
-  }
     /**
      * Index method
      *
@@ -28,11 +24,10 @@ class ItemsController extends AuthController
             'contain' => ['Events']
         ];
         $items = $this->paginate($this->Items);
-
+        $reserves = $this->Counting->reserveAllCount();
+        $this->set('reserves', $reserves);
         $this->set(compact('items'));
         $this->set('_serialize', ['items']);
-        $reserves = $this->Counting->reserveCount();
-        $this->set('reserves', $reserves);
     }
 
     /**
@@ -56,7 +51,7 @@ class ItemsController extends AuthController
         $this->set('orders', $orders);
         $this->set('item', $item);
         $this->set('_serialize', ['item']);
-        $reserves = $this->Counting->reserveCount();
+        $reserves = $this->Counting->reserveAllCount();
         $this->set('reserves', $reserves);
     }
 
@@ -75,14 +70,14 @@ class ItemsController extends AuthController
             foreach($items as $item){
               if(!$item->errors()) {
                 $this->Items->save($item);
-                $this->Flash->success(__('The item has been saved.'));
               }
             }
             if($this->set('items', $items)){
 //            if ($this->Items->save($item)) {
+                $this->Flash->success(__('The items have been saved.'));
                 return $this->redirect(['action' => 'index']);
             } else {
-                $this->Flash->error(__('The item could not be saved. Please, try again.'));
+                $this->Flash->error(__('The items could not be saved. Please, try again.'));
             }
         }
         $events = $this->Items->Events->find('list',  [

@@ -42,7 +42,7 @@ class CreateDetails extends AbstractMigration
           'update'  => 'CASCADE',
         ]);
         $table->addForeignKey('order_id', 'orders', 'id', [
-          'delete'  => 'NO_ACTION',
+          'delete'  => 'CASCADE',
           'update'  => 'CASCADE',
         ]);
         $table->addIndex([

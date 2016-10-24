@@ -35,7 +35,7 @@ class CreateEvents extends AbstractMigration
         ]);
 
         $table->addForeignKey('store_id', 'stores', 'id', [
-          'delete'  => 'NO_ACTION',
+          'delete'  => 'CASCADE',
           'update'  => 'CASCADE',
         ]);
         $table->create();

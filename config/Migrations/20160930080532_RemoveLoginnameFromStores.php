@@ -13,7 +13,7 @@ class RemoveLoginnameFromStores extends AbstractMigration
     public function change()
     {
         $table = $this->table('stores');
-        $table->removeColumn('loginname');
+     //   $table->removeColumn('loginname');
         $table->update();
     }
 }

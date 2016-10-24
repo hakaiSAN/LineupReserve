@@ -1,24 +1,17 @@
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('List Details'), ['action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('List Items'), ['controller' => 'Items', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Item'), ['controller' => 'Items', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Orders'), ['controller' => 'Orders', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Order'), ['controller' => 'Orders', 'action' => 'add']) ?></li>
-    </ul>
+    <?php echo $this->element('sidebar/usr'); ?>
 </nav>
 <div class="details form large-9 medium-8 columns content">
     <?= $this->Form->create(false) ?>
     <fieldset>
-        <legend><?= __('Add Detail') ?></legend>
-        <?php for ($count=0 ; $count <= count($items); $count++):
-                echo $this->Form->input('details.' . $count . '.item_id', ['options' => $items, 'empty' => '---']);
-//                echo $this->Form->input('details.' . $count . '.order_id', ['options' => $orders]);
-                echo $this->Form->input('details.' . $count . '.number');
+        <legend><?= __('注文受付') ?></legend>
+        <?php for ($tmp=0 ; $tmp < $count; $tmp++):
+                echo $this->Form->input('details.' . $tmp. '.item_id', ['label'=>'商品名', 'options' => $items, 'empty' => '商品を選んでください']);
+//                echo $this->Form->input('details.' . $tmp. '.order_id', ['options' => $orders]);
+                echo $this->Form->input('details.' . $tmp. '.number', ['label'=>'注文数', 'type' => 'number']);
             endfor;
         ?>
     </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
+    <?= $this->Form->button(__('注文する')) ?>
     <?= $this->Form->end() ?>
 </div>

@@ -13,11 +13,11 @@ class AddLoginnameToStores extends AbstractMigration
     public function change()
     {
         $table = $this->table('stores');
-        $table->addColumn('loginname', 'string', [
-            'default' => null,
-            'limit' => 255,
-            'null' => false,
-        ]);
+//        $table->addColumn('loginname', 'string', [
+//            'default' => null,
+//            'limit' => 255,
+//            'null' => false,
+//        ]);
         $table->renameColumn('pass', 'password');
         $table->update();
     }

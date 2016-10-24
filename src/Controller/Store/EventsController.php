@@ -29,7 +29,6 @@ class EventsController extends AuthController
             'conditions' => [ 'store_id' => $storeid]
         ];
         $events = $this->paginate($this->Events);
-
         $this->set(compact('events'));
         $this->set('_serialize', ['events']);
     }
@@ -50,8 +49,8 @@ class EventsController extends AuthController
         ]);
         $this->set('event', $event);
         $this->set('_serialize', ['event']);
-        $total = $this->Counting->processionCount($id);
-        $reserves = $this->Counting->reserveCount();
+        $total = $this->Counting->processionAllCount($id);
+        $reserves = $this->Counting->reserveAllCount();
         $this->set('reserves', $reserves);
         $this->set('total', $total);
     }

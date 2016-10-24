@@ -22,6 +22,7 @@ class DetailsController extends SessionController
      *
      * @return \Cake\Network\Response|null
      */
+  /*
     public function index()
     {
         $customer_id = $this->Session->read('Customer.id');
@@ -34,7 +35,7 @@ class DetailsController extends SessionController
         $this->set(compact('details'));
         $this->set('_serialize', ['details']);
     }
-
+   */
     /**
      * View method
      *
@@ -91,7 +92,7 @@ class DetailsController extends SessionController
 //            if ($this->Details->save($detail)) {
                 if($this->set('details', $details)){
                     $this->Session->write('Customer.order', $order->id); //二回発注しないようにする　編集のみ
-                    return $this->redirect(['action' => 'index']);
+                    return $this->redirect(['controller'=>'Customers', 'action' => 'view']);
                 } else {
                     $this->Flash->error(__('The detail could not be saved. Please, try again.'));
                 }
@@ -105,6 +106,8 @@ class DetailsController extends SessionController
           'valueField' => 'name',
           'conditions' => [ 'event_id' => $this->Session->read('Customer.event')]
         ]);
+        $count = count($items->toArray()); //アイテム数の登録監視
+        $this->set('count', $count);
         //order番号は自動的に付与
 //        $orders = $this->Details->Orders->find('list', ['limit' => 200]);
         $this->set(compact('details', 'items'));
@@ -131,17 +134,14 @@ class DetailsController extends SessionController
             $details = $detailtable->patchEntities($details, $this->request->data());
             $details = $this->_uniqueData($details); //同じ商品は2回発注できない
             foreach($details as $detail){
-//                debug($detail);
-//                debug($detail->errors());
                 if(!$detail->errors()) {
-//                        eval(breakpoint());
                         $detail['order_id'] = $order_id;
                         $this->Details->save($detail);
                     }
             }
             if($this->set('details', $details)){
                 $this->Flash->success(__('The details have been saved.'));
-                return $this->redirect(['action' => 'index']);
+                    return $this->redirect(['controller'=>'Customers', 'action' => 'view']);
             } else {
                 $this->Flash->error(__('The detail could not be saved. Please, try again.'));
             }
@@ -175,8 +175,7 @@ class DetailsController extends SessionController
         } else {
             $this->Flash->error(__('The detail could not be deleted. Please, try again.'));
         }
-
-        return $this->redirect(['action' => 'index']);
+                    return $this->redirect(['controller'=>'Customers', 'action' => 'view']);
     }
 
     //権限の確認

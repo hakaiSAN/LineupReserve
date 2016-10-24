@@ -30,7 +30,7 @@ class CreateOrders extends AbstractMigration
             'null' => false,
         ]);
         $table->addForeignKey('customer_id', 'customers', 'id', [
-          'delete'  => 'NO_ACTION',
+          'delete'  => 'CASCADE',
           'update'  => 'CASCADE',
         ]);
         $table->create();

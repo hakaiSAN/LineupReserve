@@ -18,7 +18,7 @@ class CustomersController extends SessionController
 //class CustomersController extends AppController
 //for debug
 {
-  public $components = ['Associated'];
+  public $components = ['Counting','Associated'];
 
     /**
      * Index method
@@ -57,21 +57,16 @@ class CustomersController extends SessionController
                 'conditions' => ['Orders.id' => $order_id]
             ])->first(); //オーダ確認 ないとnull
             if (!$order == null && $order->customer_id == $id){ //正しい注文
-              $items = $this->Associated->ItemsNamePrice();
+              $items = $this->Associated->ItemsNamePriceStock();
             }
         } 
         $states = $this->Associated->stateOrders();
-        
-        $processions = TableRegistry::get('Processions');
         $event_id = $this->Session->read('Customer.event');
         $event = TableRegistry::get('Events')->get($event_id); //確実に存在
-        $total = $processions->find('all',['conditions' => ['event_id' => $event_id]])->count(); //全体で何人並んでいるか
-        $position = $processions->find('all', [
-          'conditions' => [
-            'modified <'  => $customer->modified,
-            'event_id'  => $event_id
-          ]
-        ])->count() + 1; //自分は何番目か
+        $total = $this->Counting->processionAllCount($event_id); //全体で何人並んでいるか
+        $position = $this->Counting->processionOwnCount($event_id, $customer->modified); //自分は何番目か
+        $ownItems = $this->Counting->reserveOwnCount($event_id, $customer->modified); //自分は何番目のアイテム注文か（key:item_id, value:注文数）
+        $this->set('ownItems', $ownItems);
         $this->set('position', $position);
         $this->set('total', $total);
         $this->set('event', $event);
@@ -86,6 +81,7 @@ class CustomersController extends SessionController
      * Add method
      *
      * @return \Cake\Network\Response|void Redirects on successful add, renders view otherwise.
+     *
      */
 /*
     public function add()
@@ -130,7 +126,7 @@ class CustomersController extends SessionController
 //            if($this->Customers->save($customer)){
                 $this->Session->write('Customer.id', $customer->id);
                 $this->Session->write('Customer.event', $id);
-                return $this->redirect(['controller' => 'Details','action'=> 'view']);
+                return $this->redirect(['controller' => 'Customers','action'=> 'view']);
             } else {
                 $this->Flash->error(__('The customer could not be saved. Please, try again.'));
             }
@@ -138,7 +134,7 @@ class CustomersController extends SessionController
             $this->set('_serialize', ['customer']);
         } else {
 //            $this->autoRender = false;
-            return $this->redirect(['controller' => 'Customers', 'action'=> 'index']);
+            return $this->redirect(['controller' => 'Customers', 'action'=> 'view']);
         }
     }
     /**
@@ -175,19 +171,24 @@ class CustomersController extends SessionController
      * @return \Cake\Network\Response|null Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function delete($id = null)
+//    public function delete($id = null)
+    public function delete()
     {
-        $this->request->allowMethod(['post', 'delete']);
+        $id =  $this->Session->read('Customer.id');
+//        $this->request->allowMethod(['post', 'delete']);
         $customer = $this->Customers->get($id);
         if ($this->Customers->delete($customer)) {
+            $this->Session->destroy();
             $this->Flash->success(__('The customer has been deleted.'));
+            return $this->redirect(['controller'=> 'Commons', 'action' => 'indexEvents', 'prefix' => false]);
         } else {
             $this->Flash->error(__('The customer could not be deleted. Please, try again.'));
+            return $this->redirect(['controller'=> 'Customers', 'action' => 'view']);
         }
-        return $this->redirect(['action' => 'index']);
     }
 
     //権限の確認
+/*
     public function beforeFilter(\Cake\Event\Event $event) {
         //セッション情報を確認
         $action = $this->request->action; //どういった機能にいきたいかを検証
@@ -202,6 +203,7 @@ class CustomersController extends SessionController
         }
         parent::beforeFilter($event);
     }
+*/
 
 
 }
