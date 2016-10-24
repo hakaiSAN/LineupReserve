@@ -20,8 +20,15 @@ class ItemsController extends AuthController
      */
     public function index()
     {
-        $this->paginate = [
-            'contain' => ['Events']
+      $storeid =$this->Auth->user('id'); //ログインしている店舗IDを取得
+      $events = TableRegistry::get('Events')->find('list',[
+        'valueFields' => 'id',
+        'conditions'  => ['store_id' => $storeid]
+      ])->toArray(); //開催しているイベントIDリストを取得
+      $events = array_values($events);
+      $this->paginate = [
+        'contain' => ['Events'],
+        'conditions' => ['event_id IN' => $events]
         ];
         $items = $this->paginate($this->Items);
         $reserves = $this->Counting->reserveAllCount();

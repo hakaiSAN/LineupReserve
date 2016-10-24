@@ -44,7 +44,7 @@
                 <td> <?= h($items[$detail->item_id]['name']) ?> </td>
                 <td>&yen;<?= $this->Number->Format($items[$detail->item_id]['price']) ?> </td>
                 <td><?= $this->Number->Format($detail->number) ?></td>
-                <td><?= $this->Number->Format($ownItems[$detail->item_id] + 1) ?> / <?= $this->Number->Format($items[$detail->item_id]['stock']) ?> </td>
+                <td><?= $this->Number->Format(($ownItems[$detail->item_id] + 1)) ?> / <?= $this->Number->Format($items[$detail->item_id]['stock']) ?> </td>
                 <?php $sum = $sum + $items[$detail->item_id]['price'] * $detail->number ?>
             </tr>
             <?php endforeach; ?>

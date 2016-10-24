@@ -1,4 +1,8 @@
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
+<ul class="side-nav", id="stores">
+    <li class="heading"><?= __('リンク') ?></li>
+    <li><?= $this->Html->link(__('一般サイトへ'), ['controller'=> 'Commons', 'action' => 'indexEvents', 'prefix' => false]) ?> </li>
+</ul>
 </nav>
 <div class="stores form large-9 medium-8 columns content">
     <?= $this->Form->create() ?>

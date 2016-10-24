@@ -21,6 +21,8 @@
             <td><?= h($store->modified) ?></td>
         </tr>
     </table>
+    <?= $this->Html->Link(__('編集'), ['action' => 'edit', $store->id], ['class' => 'button']) ?>
+    <?= $this->Form->postLink(__('削除'), ['action' => 'delete', $store->id], ['class' => 'button', 'confirm' => __('Are you sure you want to delete # {0}?', $store->id)]) ?>
     <div class="related">
         <h4><?= __('開催イベント') ?></h4>
         <?php if (!empty($store->events)): ?>

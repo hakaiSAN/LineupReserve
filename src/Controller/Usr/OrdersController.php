@@ -125,7 +125,8 @@ class OrdersController extends SessionController
      * @return \Cake\Network\Response|null Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function delete($id = null)
+/*
+  public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
         $order = $this->Orders->get($id);
@@ -152,5 +153,5 @@ class OrdersController extends SessionController
         }
         parent::beforeFilter($event);
     }
-
+ */
 }

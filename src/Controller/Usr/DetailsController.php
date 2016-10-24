@@ -60,11 +60,15 @@ class DetailsController extends SessionController
      */
     public function add()
     {
+        if (($this->Session->check('Customer.order'))) { //まだ発注していない
+          $this->Flash->error(__('注文は1度だけです.編集ページにて編集してください'));
+          return $this->redirect(['controller'=>'Details', 'action' => 'edit']);
+        } //すでに注文を行っていたら飛べない
         $detailtable = TableRegistry::get('Details');
         $order = null;
-//        $detail = $this->Details->newEntity();
+        $detail = $this->Details->newEntity();
 //        if ($this->request->is('post') && !($this->Session->check('Customer.order'))) { //まだ発注していない
-        if ($this->request->is('post')) { //まだ発注していない
+        if ($this->request->is('post')) { //for debug
         $details = $detailtable->newEntities($this->request->data('details'));
             $details = $detailtable->PatchEntities($details, $this->request->data('details'));
             $details = $this->_uniqueData($details); //同じ商品は2回発注できない
@@ -77,7 +81,6 @@ class DetailsController extends SessionController
                         $req_data['customer_id'] = $this->Session->read('Customer.id');
                         $req_data['paid'] = null;
                         $order = $orders->patchEntity($order, $req_data);
-
                         if (!$orders->save($order)) {
                           throw new InternalErrorException;
                           //エラー発生 

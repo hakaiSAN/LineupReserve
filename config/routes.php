@@ -43,16 +43,20 @@ use Cake\Routing\Route\DashedRoute;
  */
 Router::defaultRouteClass(DashedRoute::class);
 
+
+//店舗用ページ
 Router::prefix('store', function ($routes){
-    $routes->connect ('/', ['controller' => 'Stores', 'action' => 'login']);
-    $routes->connect ('/:controller', ['action' => 'index']);
+    $routes->connect ('/', ['controller' => 'Events', 'action' => 'index']);
+    $routes->connect ('/login', ['controller' => 'Stores']);
+    $routes->connect ('/logout', ['controller' => 'Stores']);
     $routes->fallbacks(DashedRoute::class);
 });
 
 Router::prefix('usr', function ($routes){
     $routes->connect ('/', ['controller' => 'Customers', 'action' => 'view']);
     $routes->connect ('/lineup/:id', ['controller' => 'Customers', 'action' => 'lineup'],  ['id' => '\d+', 'pass' => ['id']]);
-    $routes->connect ('/:controller', ['action' => 'index']);
+    $routes->connect ('/order/:action', ['controller' => 'Details']);
+    $routes->connect ('/order/add', ['controller' => 'Details', 'action' => 'add']);
     $routes->fallbacks(DashedRoute::class);
 });
 
@@ -66,7 +70,18 @@ Router::scope('/', function (RouteBuilder $routes) {
 //    $routes->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
 //    $routes->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
 //    $routes->connect('/', ['controller' => 'Stores', 'action' => 'login']);
-    $routes->connect('/', ['controller' => 'Commons', 'action' => 'indexEvents']);
+
+//Commonsの設定
+  $routes->connect('/', ['controller' => 'Commons', 'action' => 'indexEvents']);
+    $routes->connect('/store/', ['controller' => 'Commons', 'action' => 'indexStores']);
+    $routes->connect('/store/view/:id', ['controller' => 'Commons', 'action' => 'viewStore'],['id' => '\d+', 'pass' => ['id']]);
+    $routes->connect('/store/search/', ['controller' => 'Commons', 'action' => 'searchStores']);
+    $routes->connect('/event/view/:id', ['controller' => 'Commons', 'action' => 'viewEvent'],['id' => '\d+', 'pass' => ['id']]);
+    $routes->connect('/event/search/', ['controller' => 'Commons', 'action' => 'searchEvents']);
+
+
+
+
 
     /**
      * ...and connect the rest of 'Pages' controller's URLs.
