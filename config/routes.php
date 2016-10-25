@@ -73,7 +73,7 @@ Router::scope('/', function (RouteBuilder $routes) {
 
 //Commonsの設定
   $routes->connect('/', ['controller' => 'Commons', 'action' => 'indexEvents']);
-    $routes->connect('/store/', ['controller' => 'Commons', 'action' => 'indexStores']);
+    $routes->connect('/stores/', ['controller' => 'Commons', 'action' => 'indexStores']);
     $routes->connect('/store/view/:id', ['controller' => 'Commons', 'action' => 'viewStore'],['id' => '\d+', 'pass' => ['id']]);
     $routes->connect('/store/search/', ['controller' => 'Commons', 'action' => 'searchStores']);
     $routes->connect('/event/view/:id', ['controller' => 'Commons', 'action' => 'viewEvent'],['id' => '\d+', 'pass' => ['id']]);

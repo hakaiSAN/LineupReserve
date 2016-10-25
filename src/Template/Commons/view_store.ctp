@@ -1,8 +1,4 @@
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <?php echo $this->element('sidebar/commons'); ?>
-</nav>
-<div class="stores view large-9 medium-8 columns content">
-    <h3><?= h($store->name) ?></h3>
+<h3><?= h($store->name) ?></h3>
     <table class="vertical-table">
         <tr>
             <th scope="row"><?= __('店舗名') ?></th>
@@ -32,4 +28,3 @@
         </table>
         <?php endif; ?>
     </div>
-</div>

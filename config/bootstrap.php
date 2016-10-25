@@ -254,5 +254,5 @@ switch(env('CAKEPHP_ENV')){
 
 Plugin::load('Migrations');
 
-Plugin::load('Migrations');
+Plugin::load('Less');
 

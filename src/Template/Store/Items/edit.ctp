@@ -1,7 +1,3 @@
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <?php echo $this->element('sidebar/stores'); ?>
-</nav>
-<div class="items form large-9 medium-8 columns content">
     <?= $this->Form->create($item) ?>
     <fieldset>
         <legend><?= __('商品編集') ?></legend>
@@ -15,4 +11,3 @@
     <?= $this->Form->button(__('更新')) ?>
     <?= $this->Form->end() ?>
     <?= $this->Form->postLink(__('削除'), ['action' => 'delete', $item->id], ['class' => 'button','confirm' => __('Are you sure you want to delete # {0}?', $item->id)]) ?>
-</div>

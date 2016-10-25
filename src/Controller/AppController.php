@@ -27,6 +27,7 @@ use Cake\Event\Event;
  */
 class AppController extends Controller
 {
+  public $helpers = ['Less.Less'];
 
     /**
      * Initialization hook method.

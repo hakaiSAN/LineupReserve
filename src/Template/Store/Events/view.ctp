@@ -1,8 +1,4 @@
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <?php echo $this->element('sidebar/stores'); ?>
-</nav>
-<div class="events view large-9 medium-8 columns content">
-    <h3><?= h($event->name) ?></h3>
+<h3><?= h($event->name) ?></h3>
     <table class="vertical-table">
         <tr>
             <th scope="row"><?= __('イベント名') ?></th>
@@ -66,4 +62,3 @@
         </table>
         <?php endif; ?>
     </div>
-</div>

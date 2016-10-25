@@ -1,10 +1,4 @@
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <?php echo $this->element('sidebar/commons'); ?>
-    </ul>
-</nav>
-<div class="events index large-9 medium-8 columns content">
-    <h3><?= __('店舗検索') ?></h3>
+<h3><?= __('店舗検索') ?></h3>
     <?= $this->Form->create() ?>
     <fieldset>
         <?php
@@ -31,5 +25,3 @@
             <?php endforeach; ?>
         </tbody>
     </table>
-
-</div>

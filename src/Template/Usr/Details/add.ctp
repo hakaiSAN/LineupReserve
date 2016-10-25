@@ -1,7 +1,3 @@
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <?php echo $this->element('sidebar/usr'); ?>
-</nav>
-<div class="details form large-9 medium-8 columns content">
     <?= $this->Form->create(false) ?>
     <fieldset>
         <legend><?= __('注文受付') ?></legend>
@@ -14,4 +10,3 @@
     </fieldset>
     <?= $this->Form->button(__('注文する')) ?>
     <?= $this->Form->end() ?>
-</div>

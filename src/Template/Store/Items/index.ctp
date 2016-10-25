@@ -1,7 +1,3 @@
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <?php echo $this->element('sidebar/stores'); ?>
-</nav>
-<div class="items index large-9 medium-8 columns content">
     <h3><?= __('販売商品一覧') ?></h3>
     <table cellpadding="0" cellspacing="0">
         <thead>
@@ -37,4 +33,3 @@
         </ul>
         <p><?= $this->Paginator->counter() ?></p>
     </div>
-</div>

@@ -1,6 +1,3 @@
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <?php echo $this->element('sidebar/stores'); ?>
-</nav>
 <div class="orders view large-9 medium-8 columns content">
     <h3><?= h($order->id) ?></h3>
     <table class="vertical-table">
@@ -50,4 +47,3 @@
         <?= ($states[$order->id] == "未払い") ?$this->Form->button('Paid') : null?>
         <?= $this->Form->end() ?>
     </div>
-</div>
