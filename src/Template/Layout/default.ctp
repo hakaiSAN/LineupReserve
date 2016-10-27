@@ -46,67 +46,58 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <?= $this->fetch('script') ?>
 </head>
 <body>
-<!-- カプセル化とprefixによる変更 -->
 <nav class="navbar navbar-fixed-top navbar-inverse">
   <div class="container" style="overflow:visible">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="#">LineupReserve</a>
-    </div>
-    <div id="navbar" class="collapse navbar-collapse">
-      <ul class="nav navbar-nav">
-        <li class="active">
-            <a href="#">Home</a>
-        </li>
-      <li class="dropdown" >
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
-            Dropdown <span class="caret"></span>
-          </a>
-          <ul class="dropdown-menu" role="menu">
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
-            <li class="divider"></li>
-            <li><a href="#">Separated link</a></li>
-            <li class="divider"></li>
-            <li><a href="#">One more separated link</a></li>
-          </ul> 
-        </li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-    </div><!-- /.nav-collapse -->
+          <?php switch($this->request->prefix) :
+            case 'store' :
+              if($this->request->controller == 'Stores' && $this->request->action == ('login' || 'add')) {
+                //例外
+                echo $this->element('navbar/none');
+                break;
+              }
+                echo $this->element('navbar/store');
+                break;
+            default:
+              echo $this->element('navbar/none');
+              break;
+         endswitch; ?>
   </div><!-- /.container -->
 </nav><!-- /.navbar -->
     
 <?= $this->Flash->render() ?>
-    <div class="container clearfix">
+    <div class="container-fluid clearfix">
         <div class="row-offcanvas row-offcanvas-right">
-          <div class="large-9 medium-8 columns content">
-            <p class="pull-right visible-xs">
+            <!-- BootStrapは12グリッド-->
+          <?php switch($this->request->prefix) :
+            case 'store' : ?>
+                <div class="content">
+            <?php break;
+            default: ?>
+              <!-- PC推奨-->
+              <div class="col-xs-12 col-sm-9 content">
+                <p class="pull-right visible-xs">
                 <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">リンクリスト</button>
-            </p>
+                </p>
+            <?php break;
+         endswitch; ?>
             <!-- ページごとの設定呼び出し-->
             <?= $this->fetch('content') ?>
       </div>
     <!-- サイドバー-->
-      <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar">
+      <div class="col-xs-3 col-sm-3 sidebar-offcanvas" id="sidebar">
           <?php switch($this->request->prefix) :
             case 'usr' :
               echo $this->element('sidebar/usr');
               break;
             case 'store' :
-              if($this->request->action == 'login' || 'add') {
+              /*
+              if($this->request->controller == 'Stores' && $this->request->action == ('login' || 'add')) {
                 echo $this->element('sidebar/login');
               }
               else {
                 echo $this->element('sidebar/store');
               }
+               */
               break;
             default:
               echo $this->element('sidebar/commons');
