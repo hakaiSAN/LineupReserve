@@ -18,9 +18,9 @@
         その他リンク
       </li>
       <li class="list-group-item">
-        <?= $this->Html->link(__('店舗者ログイン'), ['controller' => 'Stores', 'action' => 'login', 'prefix' => 'store']) ?>
+        <?= $this->Html->link(__('店舗者ページ'), ['controller' => 'Stores', 'action' => 'login', 'prefix' => 'store']) ?>
       </li>
       <li class="list-group-item">
-        <?= $this->Html->link(__('イベント参加者ページへ'), ['controller' => 'Customers', 'action'=>'view', 'prefix' => 'usr']) ?>
+        <?= $this->Html->link(__('イベント参加者ページ'), ['controller' => 'Customers', 'action'=>'view', 'prefix' => 'usr']) ?>
       </li>
     </ul>

@@ -1,4 +1,5 @@
 /vendor/*
 /tmp/*
 /logs/*
+/config/production/*
 /webroot/css/lessphp_*
