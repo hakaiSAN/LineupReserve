@@ -71,6 +71,7 @@ class ItemsController extends AuthController
     {
         $itemtable = TableRegistry::get('Items');
 //        $item = $this->Items->newEntity();
+/*
         if ($this->request->is('post')) {
             $items = $itemtable->newEntities($this->request->data('items'));
             //            $item = $this->Items->patchEntity($item, $this->request->data);
@@ -96,6 +97,7 @@ class ItemsController extends AuthController
 //        $this->set('_serialize', ['item']);
         $this->set(compact('items', 'events'));
         $this->set('_serialize', ['Items']);
+ */
     }
 
     /**
