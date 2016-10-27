@@ -18,7 +18,7 @@
         その他リンク
       </li>
       <li class="list-group-item">
-        <?= $this->Html->Link(__('一般サイトへ'), ['controller'=> 'Commons', 'action' => 'indexEvents', 'prefix' => false]) ?>
+        <?= $this->Html->Link(__('一般サイト'), ['controller'=> 'Commons', 'action' => 'indexEvents', 'prefix' => false]) ?>
       </li>
     </ul>
 

@@ -50,7 +50,9 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
   <div class="container" style="overflow:visible">
           <?php switch($this->request->prefix) :
             case 'store' :
-              if($this->request->controller == 'Stores' && $this->request->action == ('login' || 'add')) {
+              if($this->request->controller == 'Stores' && 
+                ($this->request->action == 'login' || 
+                $this->request->action == 'add')) {
                 //例外
                 echo $this->element('navbar/none');
                 break;

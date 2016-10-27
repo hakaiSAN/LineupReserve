@@ -3,5 +3,5 @@
     リンク
   </li>
   <li class="list-group-item">
-    <?= $this->Html->link(__('一般サイトへ'), ['controller'=> 'Commons', 'action' => 'indexEvents', 'prefix' => false]) ?> </li>
+    <?= $this->Html->link(__('一般サイト'), ['controller'=> 'Commons', 'action' => 'indexEvents', 'prefix' => false]) ?> </li>
   </li>
