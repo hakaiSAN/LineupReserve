@@ -38,7 +38,7 @@ class PaymentController extends AuthController
         $order = $this->Orders->get($id, [
             'contain' => ['Customers', 'Details']
         ]);
-        $items = $this->Associated->ItemsNamePrice();
+        $items = $this->Associated->ItemsNamePriceStock();
         $states = $this->Associated->stateOrders();
         
         if ($this->request->is(['post'])) {
