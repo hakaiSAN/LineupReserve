@@ -7,19 +7,26 @@ A skeleton for creating applications with [CakePHP](http://cakephp.org) 3.x.
 
 The framework source code can be found here: [cakephp/cakephp](https://github.com/cakephp/cakephp).
 
-## Installation
+## はじめに
 
-1. Download [Composer](http://getcomposer.org/doc/00-intro.md) or update `composer self-update`.
-2. Run `php composer.phar create-project --prefer-dist cakephp/app [app_name]`.
+このプロジェクトはGMOインターネット株式会社様のインターンシップで
+制作したものです．改めて感謝申し上げます．
+アイデア出しから実装までメンタリングを受けながら一人で行いました．
+初めてのWebアプリケーション開発でした．
 
-If Composer is installed globally, run
-```bash
-composer create-project --prefer-dist cakephp/app [app_name]
-```
+行ったプロセス・使った技術
+- エレベータピッチ
+- ユーザストーリーマッピング
+- Vagrant + VirtualBox (OS:CentOS)
+- Apache + CakePHP + MySQL
 
-You should now be able to visit the path to where you installed the app and see the default home page.
+## エレベータピッチ
 
-## Configuration
+行列販売サービス　は、
+ライブグッズを買いたい顧客　向けの、
+行列管理・注文簡易化アプリ　です。
+顧客は　行列の状況・グッズの注文状況が確認でき、グッズの注文　ができます。
+店は　販売を高速化すること、無駄な行列を作るのを防ぐこと　ができます。
+AirWait　とは違って、
+グッズの注文状況もわかる　ことが特徴です。
 
-Read and edit `config/app.php` and setup the 'Datasources' and any other
-configuration relevant for your application.
